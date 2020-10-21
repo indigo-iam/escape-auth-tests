@@ -21,12 +21,15 @@ services:
       - TZ=Europe/Rome
       - REQUESTS_CA_BUNDLE=/etc/pki/tls/cert.pem
       - OIDC_AGENT_SECRET
+      - X509_USER_PROXY
 
     volumes:
       - cabundle:/etc/pki
       - trustanchors:/etc/grid-security/certificates
       - .:/home/test/test-suite
       - ./assets/.config/oidc-agent:/home/test/.config/oidc-agent:ro
+      - ./assets/vomses:/etc/vomses:ro
+      - ./assets/vomsdir:/etc/grid-security/vomsdir:ro
       # Uncomment the following line (and comment the one above) to
       # use your local oidc-agent account
       # - ${HOME}/.config/oidc-agent:/home/test/.config/oidc-agent:ro

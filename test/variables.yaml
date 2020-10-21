@@ -3,7 +3,7 @@ oauth:
     issuer: https://iam-escape.cloud.cnaf.infn.it/
 
 oidc-agent:
-  provider-alias: escape
+  provider-alias: escape-monitoring
 
 endpoints:
   infn-t1-webdav:

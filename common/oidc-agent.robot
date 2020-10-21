@@ -1,7 +1,7 @@
 *** Variables ***
 
 ${oidc-agent.scope.default}   -s openid -s profile
-${oidc-agent.account}  escape
+${oidc-agent.account}  escape-monitoring
 ${bearer.env}   BEARER_TOKEN
 
 *** Keywords ***

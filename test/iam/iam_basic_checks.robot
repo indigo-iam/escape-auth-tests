@@ -28,6 +28,6 @@ IAM token service work as expected
     Should Be Equal  ${wlcg.version}  1.0
 
 IAM VOMS service work as expected
-    Create VOMS proxy
+    Create VOMS proxy   -voms escape -noregen
     ${rc}  ${out}   Get proxy info
     Should Contain   ${out}   /escape

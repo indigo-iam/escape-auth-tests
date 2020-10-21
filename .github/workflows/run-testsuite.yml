@@ -1,0 +1,45 @@
+name: Run ESCAPE testsuite
+
+on:
+  push:
+    branches: [ master ]
+      #  schedule:
+      #- cron: '0/4 * * * *'
+
+jobs:
+  run-testsuite:
+    name: ESCAPE authN/Z test suite
+
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Fetch crls
+        run: docker-compose up trust
+
+      - name: Create ESCAPE proxy file
+        run: touch /tmp/escape-proxy && chmod 600 /tmp/escape-proxy
+
+      - name: Setup monitoring proxy cert
+        env:
+          PROXY_CERT: ${{ secrets.ESCAPE_MONITORING_PROXY_CERT }}
+        run: 'echo ${PROXY_CERT} > /tmp/escape-proxy'
+
+      - name: Run test suite
+        env:
+          OIDC_AGENT_SECRET: ${{ secrets.OIDC_AGENT_SECRET }}
+          X509_USER_PROXY: /tmp/escape-proxy
+            # RUN_DEBUG: yes
+        run: |
+          mkdir -p reports && chmod 777 reports
+          docker-compose up -d ts 
+          docker-compose exec -T ts bash -c 'cd test-suite && sh ci/run.sh'
+          docker-compose down
+
+      - name: Archive reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path: reports
+          retention-days: 30
