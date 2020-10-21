@@ -1,0 +1,14 @@
+oauth:
+  token:
+    issuer: https://iam-escape.cloud.cnaf.infn.it/
+
+oidc-agent:
+  provider-alias: escape
+
+endpoints:
+  infn-t1-webdav:
+    desc: INFN T1 webdav endpoint
+    type: StoRM
+    endpoint: https://xfer.cr.cnaf.infn.it:8443
+    paths:
+      escape: /escape
