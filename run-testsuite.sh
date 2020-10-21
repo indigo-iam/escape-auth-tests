@@ -16,8 +16,6 @@
 #
 set -e
 
-DAV_HOST=${DAV_HOST:-localhost}
-
 REPORTS_DIR=${REPORTS_DIR:-reports}
 
 ROBOT_ARGS=${ROBOT_ARGS:-}
