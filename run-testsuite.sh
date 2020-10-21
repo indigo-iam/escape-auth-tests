@@ -28,4 +28,6 @@ if [ -n "${ROBOT_ARGS}" ]; then
   ARGS="${ARGS} ${ROBOT_ARGS}"
 fi
 
+alias python='python3'
+
 robot ${ARGS} test 
