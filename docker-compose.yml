@@ -1,0 +1,37 @@
+version: '3.5'
+
+volumes:
+  trustanchors:
+  cabundle:
+
+services:
+
+  trust:
+    image: indigoiam/egi-trustanchors
+    environment:
+      - FORCE_TRUST_ANCHORS_UPDATE=1
+    volumes:
+      - trustanchors:/etc/grid-security/certificates
+      - cabundle:/etc/pki
+
+  ts:
+    image: andreaceccanti/escape-auth-tests
+
+    environment:
+      - TZ=Europe/Rome
+      - REQUESTS_CA_BUNDLE=/etc/pki/tls/cert.pem
+      - OIDC_AGENT_SECRET
+      - RUN_DEBUG
+
+    volumes:
+      - cabundle:/etc/pki
+      - trustanchors:/etc/grid-security/certificates
+      - .:/home/test/test-suite
+      - ./assets/vomses:/etc/vomses:ro
+      - ./assets/vomsdir:/etc/grid-security/vomsdir:ro
+      - ${HOME}/.config/oidc-agent:/home/test/.config/oidc-agent:ro
+
+    entrypoint: /tini -- sleep infinity
+
+    extra_hosts:
+      - "storm.example: 192.168.65.2"

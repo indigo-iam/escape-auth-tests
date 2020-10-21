@@ -1,0 +1,41 @@
+name: Run ESCAPE testsuite
+
+on:
+  push:
+    branches: [ main ]
+      #  schedule:
+      #- cron: '0/4 * * * *'
+
+jobs:
+  run-testsuite:
+    name: ESCAPE authN/Z test suite
+
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup oidc-agent account
+        run: |
+          mkdir -p ${HOME}/.config/oidc-agent
+          cp assets/oidc-agent/escape-monitoring $HOME/.config/oidc-agent/escape-monitoring
+
+      - name: Fetch crls
+        run: docker-compose up trust
+
+      - name: Run test suite
+        env:
+          OIDC_AGENT_SECRET: ${{ secrets.OIDC_AGENT_SECRET }}
+        run: |
+          mkdir -p reports && chmod 777 reports
+          docker-compose up -d ts 
+          docker-compose exec -T ts bash -c 'cd test-suite && sh ci/run.sh'
+          docker-compose down
+          rm -rf $HOME/.config/oidc-agent
+
+      - name: Archive reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path: reports
+          retention-days: 30
