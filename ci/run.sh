@@ -70,6 +70,9 @@ endpoints=$(cat test/variables.yaml | shyaml keys endpoints | grep -v storm-exam
 
 set +e
 
+REPORTS_DIR=${reports_dir} ./run-testsuite.sh 
+rm -rf ${proxy_file}
+
 for e in ${endpoints}; do
   REPORTS_DIR=${reports_dir}/${e} ./run-testsuite.sh ${e}
 done
@@ -77,8 +80,6 @@ done
 reports=$(find ${reports_dir} -name output.xml)
 
 set -e
-
-rm -rf ${proxy_file}
 
 echo "Creating final report..."
 rebot --nostatusrc \

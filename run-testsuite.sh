@@ -16,18 +16,11 @@
 #
 set -e
 
-if [ $# -ne 1 ]; then
-  echo "Usage: $0 <seAlias>"
-  exit 1
-fi
-
 REPORTS_DIR=${REPORTS_DIR:-reports/$1}
-
-DEFAULT_EXCLUDES=${DEFAULT_EXCLUDES:-"-e iam"}
 
 ROBOT_ARGS=${ROBOT_ARGS:-}
 
-DEFAULT_ARGS="--pythonpath .:common -d ${REPORTS_DIR} ${DEFAULT_EXCLUDES}"
+DEFAULT_ARGS="--pythonpath .:common -d ${REPORTS_DIR}"
 
 ARGS=${DEFAULT_ARGS}
 
@@ -37,5 +30,13 @@ fi
 
 alias python='python3'
 
-echo "Datalake test suite run against: $1"
-robot ${ARGS} --variable se_alias:$1 --name $1 -G $1 test 
+if [ $# -eq 0 ]; then
+  robot ${ARGS} test/iam
+elif [ $# -eq 1 ]; then
+  echo "Datalake test suite run against: $1"
+  robot ${ARGS} --variable se_alias:$1 --name $1 -G $1 test/datalake
+else
+  echo "Invalid number of arguments"
+  exit 1
+fi
+ 
