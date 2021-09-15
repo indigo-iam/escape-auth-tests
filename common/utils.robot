@@ -52,19 +52,19 @@ Create Random Temporary File
     [Return]   ${path}
 
 Suite Base URL
-    [Arguments]   ${se}=${se_alias}   ${sa}=wlcg
+    [Arguments]   ${se}=${se_alias}   ${sa}=escape
     ${endpoint}   GET SE endpoint   ${se_alias}   ${sa}
-    ${url}   Set Variable   ${endpoint}/wlcg-jwt-compliance/${SUITE_UUID}
+    ${url}   Set Variable   ${endpoint}/escape-jwt-compliance/${SUITE_UUID}
     [Return]   ${url}
 
 SE URL
-    [Arguments]  ${path}  ${se}=${se_alias}   ${sa}=wlcg
+    [Arguments]  ${path}  ${se}=${se_alias}   ${sa}=escape
     ${suite_url}   Suite Base URl   ${se_alias}   ${sa}
     ${url}   Set Variable   ${suite_url}/${path}
     [Return]   ${url}
 
 Create Suite Directory
-    [Arguments]   ${sa}=wlcg
+    [Arguments]   ${sa}=escape
     ${endpoint}   GET SE endpoint   ${se_alias}   ${sa}
-    Se Create Dir If Missing   ${endpoint}/wlcg-jwt-compliance
-    Se Create Dir If Missing   ${endpoint}/wlcg-jwt-compliance/${SUITE_UUID}
+    Se Create Dir If Missing   ${endpoint}/escape-jwt-compliance
+    Se Create Dir If Missing   ${endpoint}/escape-jwt-compliance/${SUITE_UUID}

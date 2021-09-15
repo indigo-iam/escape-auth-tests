@@ -16,11 +16,18 @@
 #
 set -e
 
-REPORTS_DIR=${REPORTS_DIR:-reports}
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 <seAlias>"
+  exit 1
+fi
+
+REPORTS_DIR=${REPORTS_DIR:-reports/$1}
+
+DEFAULT_EXCLUDES=${DEFAULT_EXCLUDES:-"-e iam"}
 
 ROBOT_ARGS=${ROBOT_ARGS:-}
 
-DEFAULT_ARGS="--pythonpath .:common -d ${REPORTS_DIR}"
+DEFAULT_ARGS="--pythonpath .:common -d ${REPORTS_DIR} ${DEFAULT_EXCLUDES}"
 
 ARGS=${DEFAULT_ARGS}
 
@@ -30,4 +37,5 @@ fi
 
 alias python='python3'
 
-robot ${ARGS} test 
+echo "Datalake test suite run against: $1"
+robot ${ARGS} --variable se_alias:$1 --name $1 -G $1 test 

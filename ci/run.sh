@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 IAM_PROXYCERT_ENDPOINT=${IAM_PROXYCERT_ENDPOINT:-https://iam-escape.cloud.cnaf.infn.it/iam/proxycert}
 PROXY_CERT_LIFETIME_SECS=${PROXY_CERT_LIFETIME_SECS:-3600}
@@ -66,15 +66,26 @@ if [ -n "${RUN_DEBUG}" ]; then
   set -x
 fi
 
+endpoints=$(cat test/variables.yaml | shyaml keys endpoints | grep -v storm-example)
+
 set +e
 
-REPORTS_DIR=${reports_dir} ./run-testsuite.sh 
+for e in ${endpoints}; do
+  REPORTS_DIR=${reports_dir}/${e} ./run-testsuite.sh ${e}
+done
 
-ec=$?
+reports=$(find ${reports_dir} -name output.xml)
 
-if [ ${ec} -ne 0 ]; then
-    echo "There are test failures"
-fi
+set -e
 
 rm -rf ${proxy_file}
-exit ${ec}
+
+echo "Creating final report..."
+rebot --nostatusrc \
+  --report ${reports_dir}/joint-report.html \
+  --log ${reports_dir}/joint-log.html \
+  --ReportTitle "JWT compliance tests ${now}" \
+  --name "JWT compliance tests" \
+  ${reports}
+
+echo "Done!"
