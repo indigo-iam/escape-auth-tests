@@ -13,4 +13,5 @@ Force Tags   read-permissions
 Read access granted to ESCAPE members
     ${token}   Get token   scope=-s openid
     ${endpoint}   GET SE endpoint   ${se_alias}
-    Execute and Check Success   gfal-ls ${endpoint}
+    ${rc}  ${output}  Execute and Check Success   gfal-ls -d ${endpoint}
+    Should Contain   ${output}  ${endpoint}

@@ -71,7 +71,10 @@ endpoints=$(cat test/variables.yaml | shyaml keys endpoints | grep -v storm-exam
 set +e
 
 REPORTS_DIR=${reports_dir} ./run-testsuite.sh 
+
+# remove proxy if you don't need it in the next test suite
 rm -rf ${proxy_file}
+unset X509_USER_PROXY
 
 for e in ${endpoints}; do
   REPORTS_DIR=${reports_dir}/${e} ./run-testsuite.sh ${e}

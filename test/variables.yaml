@@ -9,12 +9,12 @@ endpoints:
   infn-t1-webdav:
     desc: INFN T1 webdav endpoint
     type: StoRM
-    endpoint: https://xfer.cr.cnaf.infn.it:8443
+    endpoint: davs://xfer.cr.cnaf.infn.it:8443
     paths:
       escape: /escape
   cnaf-amnesiac:
     desc: CNAF StoRM development instance
     type: StoRM
-    endpoint: https://amnesiac.cloud.cnaf.infn.it:8443
+    endpoint: davs://amnesiac.cloud.cnaf.infn.it:8443
     paths:
       escape: /escape
