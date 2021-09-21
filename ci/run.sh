@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 IAM_PROXYCERT_ENDPOINT=${IAM_PROXYCERT_ENDPOINT:-https://iam-escape.cloud.cnaf.infn.it/iam/proxycert}
 PROXY_CERT_LIFETIME_SECS=${PROXY_CERT_LIFETIME_SECS:-3600}
@@ -66,30 +66,46 @@ if [ -n "${RUN_DEBUG}" ]; then
   set -x
 fi
 
-endpoints=$(cat test/variables.yaml | shyaml keys endpoints | grep -v storm-example)
-
 set +e
 
-REPORTS_DIR=${reports_dir} ./run-testsuite.sh 
+REPORTS_DIR=${reports_dir}/iam ./run-testsuite.sh
+
+ec_iam=$?
 
 # remove proxy if you don't need it in the next test suite
 rm -rf ${proxy_file}
 unset X509_USER_PROXY
 
+endpoints=$(cat test/variables.yaml | shyaml keys endpoints)
+
+ec_dl=0
+
 for e in ${endpoints}; do
   REPORTS_DIR=${reports_dir}/${e} ./run-testsuite.sh ${e}
+
+  if [ $? -ne 0 ]; then
+      (( ec_dl++ ))
+  fi
 done
 
-reports=$(find ${reports_dir} -name output.xml)
-
 set -e
+
+ec=$(( ${ec_dl} + ${ec_iam} ))
+
+if [ ${ec} -ne 0 ]; then
+    echo "There are test failures"
+fi
+
+reports=$(find ${reports_dir} -name output.xml)
 
 echo "Creating final report..."
 rebot --nostatusrc \
   --report ${reports_dir}/joint-report.html \
   --log ${reports_dir}/joint-log.html \
-  --ReportTitle "JWT compliance tests ${now}" \
-  --name "JWT compliance tests" \
+  --ReportTitle "ESCAPE datalake tests ${now}" \
+  --name "ESCAPE datalake tests" \
   ${reports}
 
 echo "Done!"
+
+exit ${ec}
