@@ -17,6 +17,7 @@ Then run the entire testsuite with
 ```bash
 docker-compose exec -T ts bash -c 'cd test-suite && OIDC_AGENT_SECRET=<secret> sh ci/run.sh'
 ```
+
 where `<secret>` is the `escape-monitoring` client's secret.
 
 ### Datalake
@@ -29,11 +30,11 @@ Once the testsuite is UP, you can log into the container:
 docker-compose exec ts bash
 ```
 
-You will need to initialize oidc-agent inside the container. 
+You will need to initialize oidc-agent inside the container.
 
 ```bash
-$ eval $(oidc-agent --no-autoload)
-$ oidc-add escape-monitoring
+eval $(oidc-agent --no-autoload)
+oidc-add escape-monitoring
 ```
 
 You can then run the testsuite against one of the registered endpoint, _e.g._ `cnaf-amnesiac`
@@ -44,3 +45,22 @@ cd test-suite
 ```
 
 To add an endpoint, edit the `./test/variables.yaml` file.
+
+## CI test suite run
+
+### GH actions
+
+The test suite runs on GH actions:
+
+- at each commit on any branch
+- every 20 minutes
+
+### CNAF SD Jenkins
+
+The test suite also runs on the CNAF software develop group Jenkins instance:
+
+- at each commit on any branch
+- every day at 11 CEST
+
+Reports can be accessed
+[here](https://ci.cloud.cnaf.infn.it/view/escape/job/escape-dl-tests)
