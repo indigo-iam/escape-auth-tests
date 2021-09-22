@@ -1,6 +1,4 @@
-# ESCAPE AuthN/Z test suite 
-
-TBD
+# ESCAPE AuthN/Z test suite
 
 ## Running the testsuite with docker
 
