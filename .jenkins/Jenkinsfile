@@ -13,7 +13,7 @@ pipeline {
   triggers { cron('0 11 * * *') }
 
   environment {
-    OIDC_AGENT_SECRET = credentials('escape_dl_oidc_agent_secret')
+    OIDC_AGENT_SECRET = credentials('escape_auth_oidc_agent_secret')
     REPORTS_DIR_BASE = '/tmp/reports'
   }
 
