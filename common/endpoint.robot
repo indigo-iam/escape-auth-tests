@@ -10,7 +10,7 @@ Get SE config
     [Return]   ${se_cfg}
 
 Get SE endpoint
-    [Arguments]   ${se_alias}   ${sa}=wlcg
+    [Arguments]   ${se_alias}   ${sa}=escape
     ${se_cfg}   Get SE config   ${se_alias}
     ${sa_path}   Get From Dictionary   ${se_cfg.paths}   ${sa}
     [Return]   ${se_cfg.endpoint}${sa_path}

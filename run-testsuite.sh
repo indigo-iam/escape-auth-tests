@@ -16,7 +16,7 @@
 #
 set -e
 
-REPORTS_DIR=${REPORTS_DIR:-reports}
+REPORTS_DIR=${REPORTS_DIR:-reports/$1}
 
 ROBOT_ARGS=${ROBOT_ARGS:-}
 
@@ -30,4 +30,13 @@ fi
 
 alias python='python3'
 
-robot ${ARGS} test 
+if [ $# -eq 0 ]; then
+  robot ${ARGS} test/iam
+elif [ $# -eq 1 ]; then
+  echo "Datalake test suite run against: $1"
+  robot ${ARGS} --variable se_alias:$1 --name $1 -G $1 test/datalake
+else
+  echo "Invalid number of arguments"
+  exit 1
+fi
+ 

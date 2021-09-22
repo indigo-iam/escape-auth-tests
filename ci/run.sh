@@ -68,13 +68,44 @@ fi
 
 set +e
 
-REPORTS_DIR=${reports_dir} ./run-testsuite.sh 
+REPORTS_DIR=${reports_dir}/iam ./run-testsuite.sh
 
-ec=$?
+ec_iam=$?
+
+# remove proxy if you don't need it in the next test suite
+rm -rf ${proxy_file}
+unset X509_USER_PROXY
+
+endpoints=$(cat test/variables.yaml | shyaml keys endpoints)
+
+ec_dl=0
+
+for e in ${endpoints}; do
+  REPORTS_DIR=${reports_dir}/${e} ./run-testsuite.sh ${e}
+
+  if [ $? -ne 0 ]; then
+      (( ec_dl++ ))
+  fi
+done
+
+set -e
+
+ec=$(( ${ec_dl} + ${ec_iam} ))
 
 if [ ${ec} -ne 0 ]; then
     echo "There are test failures"
 fi
 
-rm -rf ${proxy_file}
+reports=$(find ${reports_dir} -name output.xml)
+
+echo "Creating final report..."
+rebot --nostatusrc \
+  --report ${reports_dir}/joint-report.html \
+  --log ${reports_dir}/joint-log.html \
+  --ReportTitle "ESCAPE datalake tests ${now}" \
+  --name "ESCAPE datalake tests" \
+  ${reports}
+
+echo "Done!"
+
 exit ${ec}
