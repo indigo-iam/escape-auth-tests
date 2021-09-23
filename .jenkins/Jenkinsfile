@@ -24,6 +24,8 @@ pipeline {
           sh returnStatus: true, script: '''#!/bin/bash 
           set -ex
           mkdir -p /tmp/reports  && rm -rf /tmp/reports/*
+          mkdir -p ${HOME}/.config/oidc-agent
+          cp assets/oidc-agent/escape-monitoring $HOME/.config/oidc-agent/escape-monitoring
           docker-compose up trust
           docker-compose up -d ts
           docker-compose exec -T ts bash -c 'cd test-suite && sh ci/run.sh'
@@ -44,6 +46,7 @@ pipeline {
     cleanup {
       sh '''#!/bin/bash
       docker-compose down -v
+      rm -rf $HOME/.config/oidc-agent
       '''
     }
 
