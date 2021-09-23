@@ -22,6 +22,7 @@ services:
       - REQUESTS_CA_BUNDLE=/etc/pki/tls/cert.pem
       - OIDC_AGENT_SECRET
       - RUN_DEBUG
+      - REPORTS_DIR_BASE
 
     volumes:
       - cabundle:/etc/pki
