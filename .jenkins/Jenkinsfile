@@ -23,6 +23,7 @@ pipeline {
         script {
           sh returnStatus: true, script: '''#!/bin/bash 
           set -ex
+          mkdir -p reports && rm -rf reports/*
           mkdir -p /tmp/reports  && rm -rf /tmp/reports/*
           mkdir -p ${HOME}/.config/oidc-agent
           cp assets/oidc-agent/escape-monitoring $HOME/.config/oidc-agent/escape-monitoring
