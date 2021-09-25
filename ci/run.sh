@@ -77,7 +77,7 @@ rm -rf ${proxy_file}
 unset X509_USER_PROXY
 
 echo -e "\nLooking for new RSEs from CRIC..."
-./ci/fetch-new-rses-from-cric.sh > /dev/null 2>&1
+./ci/fetch-rses-from-cric.sh > /dev/null 2>&1
 if [ $? -eq 0 ]; then
     echo -e "Already up to date.\n"
 else
