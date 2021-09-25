@@ -70,4 +70,4 @@ The test suite also runs on the CNAF software develop group Jenkins instance:
 - every day at 11 CEST
 
 Reports can be accessed
-[here](https://ci.cloud.cnaf.infn.it/view/escape/job/escape-dl-tests)
+[here](https://ci.cloud.cnaf.infn.it/view/escape/job/escape-auth-tests)
