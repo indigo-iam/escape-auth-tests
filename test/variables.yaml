@@ -6,15 +6,10 @@ oidc-agent:
   provider-alias: escape-monitoring
 
 endpoints:
-  infn-t1-webdav:
-    desc: INFN T1 webdav endpoint
-    type: StoRM
-    endpoint: davs://xfer.cr.cnaf.infn.it:8443
-    paths:
-      escape: /escape
   cnaf-amnesiac:
+    enable: true
     desc: CNAF StoRM development instance
     type: StoRM
     endpoint: davs://amnesiac.cloud.cnaf.infn.it:8443
     paths:
-      escape: /escape
+      prefix: /escape
