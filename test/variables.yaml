@@ -13,3 +13,95 @@ endpoints:
     endpoint: davs://amnesiac.cloud.cnaf.infn.it:8443
     paths:
       prefix: /escape
+  alpamed-dpm:
+    enable: true
+    desc: LAPP-DPM-davs
+    type:
+    endpoint: davs://lapp-testse01.in2p3.fr:443
+    paths:
+      prefix: /dpm/in2p3.fr/home/escape/rucio/lapp_dpm
+  aws_webdav:
+    enable: true
+    desc: AWS_WEBDAV-s3
+    type:
+    endpoint: https://myescapebucket.s3.amazonaws.com:443
+    paths:
+      prefix: /
+  cnaf-storm:
+    enable: true
+    desc: CNAF-STORM-davs
+    type:
+    endpoint: davs://xfer.cr.cnaf.infn.it:8443
+    paths:
+      prefix: /escape/rucio/cnaf_storm
+  eulake-1:
+    enable: true
+    desc: EULAKE-1-davs
+    type:
+    endpoint: davs://eoseulake.cern.ch:443
+    paths:
+      prefix: /eos/eulake/tests/rucio_test/eulake_1
+  eulake-ec:
+    enable: true
+    desc: EULAKE-EC-davs
+    type:
+    endpoint: davs://eoseulake.cern.ch:443
+    paths:
+      prefix: //eos/eulake/tests/rucio_test/eulake_1/EC42/
+  in2p3-cc-dcache:
+    enable: true
+    desc: CC-IN2P3-DCACHE-davs
+    type:
+    endpoint: davs://ccdcalitest10.in2p3.fr:2880
+    paths:
+      prefix: //pnfs/in2p3.fr/data/escape/cc_in2p3_dcache
+  infn-roma1:
+    enable: true
+    desc: INFN-ROMA1-davs
+    type:
+    endpoint: davs://atlas-dpm-01.roma1.infn.it:443
+    paths:
+      prefix: //dpm/roma1.infn.it/home/escape/tests
+  lapp-dcache:
+    enable: true
+    desc: LAPP-DCACHE-davs
+    type:
+    endpoint: davs://lapp-dcache01.in2p3.fr:2880
+    paths:
+      prefix: //data/escape/rucio/lapp_dcache
+  lapp-webdav:
+    enable: true
+    desc: LAPP-WEBDAV-webdav
+    type:
+    endpoint: davs://lapp-esc02.in2p3.fr:8001
+    paths:
+      prefix: /webdav
+  pic-dcache:
+    enable: true
+    desc: PIC-DCACHE-davs
+    type:
+    endpoint: davs://door05.pic.es:8452
+    paths:
+      prefix: //rucio/pic_dcache
+  pic-dcache-tape:
+    enable: true
+    desc: PIC-DCACHE-TAPE-davs
+    type:
+    endpoint: davs://door05.pic.es:8452
+    paths:
+      prefix: //cta/tape
+  pic-inject:
+    enable: true
+    desc: PIC-INJECT-davs
+    type:
+    endpoint: davs://door05.pic.es:8452
+    paths:
+      prefix: //rucio/pic_inject
+  sara-swift:
+    enable: true
+    desc: SARA-SWIFT-s3
+    type:
+    endpoint: https://proxy.swift.surfsara.nl:443
+    paths:
+      prefix: /
+
