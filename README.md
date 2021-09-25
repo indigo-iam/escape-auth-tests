@@ -46,6 +46,13 @@ cd test-suite
 
 To add an endpoint, edit the `./test/variables.yaml` file.
 
+This [JSON document](https://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma) provides a list of active RSEs in the Datalake.  
+To fetch the list of Datalake endpoints compatible with the `./test/variables.yaml` file, run
+
+```console
+./ci/fetch-new-rses-from-cric.sh
+```
+
 ## CI test suite run
 
 ### GH actions
