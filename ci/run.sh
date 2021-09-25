@@ -76,6 +76,15 @@ ec_iam=$?
 rm -rf ${proxy_file}
 unset X509_USER_PROXY
 
+echo -e "\nLooking for new RSEs from CRIC..."
+./ci/fetch-new-rses-from-cric.sh > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    echo -e "Already up to date.\n"
+else
+    echo    "WARNING: your 'variable.yaml' file is not up to date."
+    echo -e "Please add missing datalake endpoints.\n"
+fi
+
 endpoints=$(cat test/variables.yaml | shyaml keys endpoints)
 
 ec_dl=0
