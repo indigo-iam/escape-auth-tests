@@ -50,7 +50,7 @@ This [JSON document](https://escape-cric.cern.ch/api/doma/rse/query/?json&preset
 To fetch the list of Datalake endpoints compatible with the `./test/variables.yaml` file, run
 
 ```console
-./ci/fetch-rses-from-cric.sh
+./ci/assets/fetch-rses-from-cric.sh
 ```
 
 ## CI test suite run

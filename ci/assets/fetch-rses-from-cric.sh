@@ -3,7 +3,7 @@
 CRIC_URL=${CRIC_URL:-https://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma}
 VAR_FILE=${VAR_FILE:-test/variables.yaml}
 
-cric=$(curl -k ${CRIC_URL})
+cric=$(curl -s ${CRIC_URL})
 keys=($(echo $cric | jq .rses | jq keys[]))
 
 ec=0
