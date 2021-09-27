@@ -8,7 +8,7 @@ pipeline {
     ansiColor('xterm')
     disableConcurrentBuilds()
     timestamps()
-    lock resource: 'escape-authz-tests-lock'
+    lock resource: 'escape-auth-tests-lock'
   }
 
   triggers { cron('0 11 * * *') }
