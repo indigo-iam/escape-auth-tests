@@ -13,8 +13,7 @@ Get SE endpoint
     [Arguments]   ${se_alias}   ${sa}=prefix
     ${se_cfg}   Get SE config   ${se_alias}
     ${sa_path}   Get From Dictionary   ${se_cfg.paths}   ${sa}
-    ${escape_path}  Get ESCAPE path   ${sa_path}
-    [Return]   ${se_cfg.endpoint}${escape_path}
+    [Return]   ${se_cfg.endpoint}${sa_path}
 
 Get ESCAPE path
     [Arguments]   ${prefix}
