@@ -5,6 +5,7 @@ IAM_PROXYCERT_ENDPOINT=${IAM_PROXYCERT_ENDPOINT:-https://iam-escape.cloud.cnaf.i
 PROXY_CERT_LIFETIME_SECS=${PROXY_CERT_LIFETIME_SECS:-3600}
 
 REPORTS_DIR_BASE=${REPORTS_DIR_BASE:-$(pwd)/reports}
+FAIL_ON_TESTS_FAILURE=${FAIL_ON_TESTS_FAILURE:-}
 
 now=$(date +%Y%m%d_%H%M%S)
 reports_dir=${REPORTS_DIR_BASE}/reports/${now}
@@ -122,4 +123,8 @@ rebot --nostatusrc \
 
 echo "Done!"
 
-exit ${ec}
+if [ -n "${FAIL_ON_TESTS_FAILURES}" ]; then
+  exit ${ec}
+else
+  exit 0
+fi
