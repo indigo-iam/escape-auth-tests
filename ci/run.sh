@@ -5,6 +5,7 @@ IAM_PROXYCERT_ENDPOINT=${IAM_PROXYCERT_ENDPOINT:-https://iam-escape.cloud.cnaf.i
 PROXY_CERT_LIFETIME_SECS=${PROXY_CERT_LIFETIME_SECS:-3600}
 
 REPORTS_DIR_BASE=${REPORTS_DIR_BASE:-$(pwd)/reports}
+FAIL_ON_TESTS_FAILURE=${FAIL_ON_TESTS_FAILURE:-}
 
 now=$(date +%Y%m%d_%H%M%S)
 reports_dir=${REPORTS_DIR_BASE}/reports/${now}
@@ -76,7 +77,21 @@ ec_iam=$?
 rm -rf ${proxy_file}
 unset X509_USER_PROXY
 
-endpoints=$(cat test/variables.yaml | shyaml keys endpoints)
+echo -e "\nLooking for new RSEs from CRIC..."
+
+joint_variables=$(mktemp)
+cat test/variables.yaml > ${joint_variables}
+./ci/assets/fetch-rses-from-cric.sh >> ${joint_variables}
+
+if [ $? -eq 0 ]; then
+    echo -e "Already up to date.\n"
+else
+    echo    "WARNING: your 'variables.yaml' file is not up to date."
+    echo -e "Please add missing datalake endpoints.\n"
+fi
+
+endpoints=$(cat ${joint_variables} | shyaml keys endpoints)
+rm -rf ${joint_variables}
 
 ec_dl=0
 
@@ -108,4 +123,8 @@ rebot --nostatusrc \
 
 echo "Done!"
 
-exit ${ec}
+if [ -n "${FAIL_ON_TESTS_FAILURES}" ]; then
+  exit ${ec}
+else
+  exit 0
+fi

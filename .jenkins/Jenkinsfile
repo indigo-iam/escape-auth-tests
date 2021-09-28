@@ -1,0 +1,67 @@
+#!/usr/bin/env groovy
+pipeline {
+  agent { label 'docker' }
+
+  options {
+    timeout(time: 1, unit: 'HOURS')
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+    ansiColor('xterm')
+    disableConcurrentBuilds()
+    timestamps()
+    lock resource: 'escape-auth-tests-lock'
+  }
+
+  triggers { cron('0 11 * * *') }
+
+  environment {
+    OIDC_AGENT_SECRET = credentials('escape_auth_oidc_agent_secret')
+    REPORTS_DIR_BASE = '/tmp/reports'
+  }
+
+  stages {
+    stage ('run'){
+      steps {
+        script {
+          sh returnStatus: true, script: '''#!/bin/bash 
+          set -ex
+          mkdir -p reports && rm -rf reports/*
+          mkdir -p /tmp/reports  && rm -rf /tmp/reports/*
+          mkdir -p ${HOME}/.config/oidc-agent
+          cp assets/oidc-agent/escape-monitoring $HOME/.config/oidc-agent/escape-monitoring
+          docker-compose up trust
+          docker-compose up -d ts
+          docker-compose exec -T ts bash -c 'cd test-suite && sh ci/run.sh'
+          '''
+        }
+      }
+    }
+
+    stage('report'){
+      steps {
+        sh "docker cp escape-auth-tests_ts_1:/tmp/reports ."
+        archive 'reports/**'
+      }
+    }
+  }
+
+  post {
+    cleanup {
+      sh '''#!/bin/bash
+      docker-compose down -v
+      rm -rf $HOME/.config/oidc-agent
+      '''
+    }
+
+    failure {
+      slackSend color: 'danger', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Failure (<${env.BUILD_URL}|Open>)"
+    }
+
+    changed {
+      script{
+        if('SUCCESS'.equals(currentBuild.currentResult)) {
+          slackSend color: 'good', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} Back to normal (<${env.BUILD_URL}|Open>)"
+        }
+      }
+    }
+  }
+}
