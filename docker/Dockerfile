@@ -31,6 +31,9 @@ RUN wget https://ci.cloud.cnaf.infn.it/view/repos/job/repo_test_ca/lastSuccessfu
     chown -R test:test /home/test/.globus
 
 RUN yum -y install voms-clients-java gfal2-util gfal2-all gfal2-python davix jq && \
+    curl -sL https://rpm.nodesource.com/setup_14.x | bash - && \
+    yum install -y nodejs && \
+    npm install -g jwt-cli && \
     yum clean all && \
     yum -y install https://github.com/indigo-dc/oidc-agent/releases/download/v3.3.5/oidc-agent-3.3.5-1.el7.x86_64.rpm && \
     pip3 install --upgrade pip && \
