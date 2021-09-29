@@ -15,7 +15,7 @@ services:
       - cabundle:/etc/pki
 
   ts:
-    image: andreaceccanti/escape-auth-tests
+    image: indigoiam/escape-auth-tests
 
     environment:
       - TZ=Europe/Rome
