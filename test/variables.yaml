@@ -83,13 +83,6 @@ endpoints:
     endpoint: davs://door05.pic.es:8452
     paths:
       prefix: //rucio/pic_dcache
-  pic-dcache-tape:
-    enable: true
-    desc: PIC-DCACHE-TAPE-davs
-    type:
-    endpoint: davs://door05.pic.es:8452
-    paths:
-      prefix: //cta/tape
   pic-inject:
     enable: true
     desc: PIC-INJECT-davs
