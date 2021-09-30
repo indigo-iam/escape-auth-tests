@@ -33,12 +33,18 @@ Gfal copy Success
 Gfal mkdir Success   
     [Arguments]  ${url}  ${opts}=${EMPTY}
     ${cmd}   Set Variable   gfal-mkdir ${opts} ${url}
-    ${rc}   ${out}   Execute and Check Success   ${cmd}
+    Execute and Check Success   ${cmd}
+    ${rc}   ${out}   Gfal read Success   ${url}   -d
+    [Return]  ${rc}  ${out}
+
+Gfal mkdir Error   
+    [Arguments]  ${url}  ${opts}=-p
+    ${cmd}   Set Variable   gfal-mkdir ${opts} ${url}
+    ${rc}   ${out}   Execute and Check Failure   ${cmd}
     [Return]  ${rc}  ${out}
 
 Gfal rm Success
     [Arguments]  ${url}  ${opts}=-r
     ${cmd}   Set Variable   gfal-rm ${opts} ${url}
     ${rc}   ${out}   Execute and Check Success   ${cmd}
-    Should Contain   ${out}   RMDIR
     [Return]  ${rc}  ${out}
