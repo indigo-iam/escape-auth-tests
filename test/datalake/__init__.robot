@@ -6,6 +6,7 @@ Library    Collections
 Resource   common/oidc-agent.robot
 Resource   common/endpoint.robot
 Resource   common/utils.robot
+Resource   common/gfal.robot
 
 Variables   test/variables.yaml
 
@@ -20,12 +21,9 @@ Create working directory
     Set Global Variable   ${SUITE_UUID}   ${suite_uuid}
     ${token}   Get token
     ${url}   Suite Base URL
-    ${cmd}   Set Variable   gfal-mkdir -p ${url}
-    ${rc}   ${output}   Execute and Check Success   ${cmd}
+    ${rc}   ${out}   Gfal mkdir Success   ${url}   -p
 
 Cleanup working directory
     ${token}   Get token
     ${url}   Suite Base URL
-    ${cmd}   Set Variable   gfal-rm -r ${url}
-    ${rc}   ${output}   Execute and Check Success   ${cmd}
-    Should Contain   ${output}   RMDIR
+    ${rc}   ${out}   Gfal rm Success   ${url}
