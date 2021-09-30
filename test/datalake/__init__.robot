@@ -19,6 +19,8 @@ Suite Teardown   Cleanup working directory
 Create working directory
     ${SUITE_UUID}   Generate UUID
     Set Global Variable   ${SUITE_UUID}   ${suite_uuid}
+    ${NOW}   Get NOW Time
+    Set Global Variable   ${NOW}
     ${token}   Get token
     ${url}   Suite Base URL
     ${rc}   ${out}   Gfal mkdir Success   ${url}   -p

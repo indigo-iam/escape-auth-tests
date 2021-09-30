@@ -54,7 +54,7 @@ Create Random Temporary File
 Suite Base URL
     [Arguments]   ${se}=${se_alias}   ${sa}=prefix
     ${endpoint}   GET SE endpoint   ${se_alias}   ${sa}
-    ${url}   Set Variable   ${endpoint}/escape-auth-tests/${SUITE_UUID}
+    ${url}   Set Variable   ${endpoint}/escape-auth-tests/${NOW}-${SUITE_UUID}
     [Return]   ${url}
 
 SE URL
@@ -68,3 +68,7 @@ Create Suite Directory
     ${endpoint}   GET SE endpoint   ${se_alias}   ${sa}
     Se Create Dir If Missing   ${endpoint}/escape-auth-tests
     Se Create Dir If Missing   ${endpoint}/escape-auth-tests/${SUITE_UUID}
+
+Get NOW Time
+    ${year}  ${month}  ${day}  ${hour}  ${min}  ${sec}   Get Time   year month day hour min sec
+    [Return]   ${year}${month}${day}_${hour}${min}${sec}
