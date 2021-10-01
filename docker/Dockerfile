@@ -42,7 +42,8 @@ RUN yum -y install voms-clients-java gfal2-util gfal2-all gfal2-python davix jq 
     pip3 install --upgrade requests && \
     pip3 install --upgrade pyyaml && \
     pip3 install --upgrade shyaml && \
-    pip3 install --upgrade pyjwt && \
+    # bug in newer pyjwt version reported in https://github.com/Azure/azure-sdk-for-python/issues/16035
+    pip3 install pyjwt==1.7.0 && \
     rm -rf /var/cache/yum
 
 ENV TINI_VERSION v0.18.0
