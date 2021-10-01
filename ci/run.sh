@@ -11,7 +11,9 @@ now=$(date +%Y%m%d_%H%M%S)
 reports_dir=${REPORTS_DIR_BASE}/reports/${now}
 
 eval $(oidc-agent --no-autoload)
+
 oidc-add --pw-cmd='echo $OIDC_AGENT_SECRET' escape-monitoring
+oidc-add --pw-cmd='echo $OIDC_AGENT_CMS_SECRET' escape-auth-tests-cms
 
 client_config=$(mktemp)
 chmod 600 ${client_config}
