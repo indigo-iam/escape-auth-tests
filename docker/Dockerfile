@@ -35,7 +35,8 @@ RUN yum -y install voms-clients-java gfal2-util gfal2-all gfal2-python davix jq 
     yum install -y nodejs && \
     npm install -g jwt-cli && \
     yum clean all && \
-    yum -y install https://github.com/indigo-dc/oidc-agent/releases/download/v3.3.5/oidc-agent-3.3.5-1.el7.x86_64.rpm && \
+    wget https://repo.data.kit.edu/data-kit-edu-centos7.repo -O /etc/yum.repos.d/data-kit-edu-centos7.repo && \
+    yum install -y oidc-agent && \
     pip3 install --upgrade pip && \
     pip3 install --upgrade robotframework-httplibrary && \
     pip3 install --upgrade oic && \
