@@ -26,6 +26,7 @@ jobs:
       - name: Run test suite
         env:
           OIDC_AGENT_SECRET: ${{ secrets.OIDC_AGENT_SECRET }}
+          OIDC_AGENT_CMS_SECRET: ${{ secrets.OIDC_AGENT_CMS_SECRET }}
         run: |
           mkdir -p reports && chmod 777 reports
           docker-compose up -d ts 
