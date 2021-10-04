@@ -15,6 +15,7 @@ pipeline {
 
   environment {
     OIDC_AGENT_SECRET = credentials('escape_auth_oidc_agent_secret')
+    OIDC_AGENT_CMS_SECRET = credentials('escape_auth_oidc_agent_cms_secret')
     REPORTS_DIR_BASE = '/tmp/reports'
   }
 
