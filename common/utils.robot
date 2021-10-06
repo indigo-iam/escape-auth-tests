@@ -52,19 +52,23 @@ Create Random Temporary File
     [Return]   ${path}
 
 Suite Base URL
-    [Arguments]   ${se}=${se_alias}   ${sa}=escape
+    [Arguments]   ${se}=${se_alias}   ${sa}=prefix
     ${endpoint}   GET SE endpoint   ${se_alias}   ${sa}
-    ${url}   Set Variable   ${endpoint}/escape-jwt-compliance/${SUITE_UUID}
+    ${url}   Set Variable   ${endpoint}/escape-auth-tests/${NOW}-${SUITE_UUID}
     [Return]   ${url}
 
 SE URL
-    [Arguments]  ${path}  ${se}=${se_alias}   ${sa}=escape
-    ${suite_url}   Suite Base URl   ${se_alias}   ${sa}
+    [Arguments]  ${path}  ${se}=${se_alias}   ${sa}=prefix
+    ${suite_url}   Suite Base URL   ${se_alias}   ${sa}
     ${url}   Set Variable   ${suite_url}/${path}
     [Return]   ${url}
 
 Create Suite Directory
-    [Arguments]   ${sa}=escape
+    [Arguments]   ${sa}=prefix
     ${endpoint}   GET SE endpoint   ${se_alias}   ${sa}
-    Se Create Dir If Missing   ${endpoint}/escape-jwt-compliance
-    Se Create Dir If Missing   ${endpoint}/escape-jwt-compliance/${SUITE_UUID}
+    Se Create Dir If Missing   ${endpoint}/escape-auth-tests
+    Se Create Dir If Missing   ${endpoint}/escape-auth-tests/${SUITE_UUID}
+
+Get NOW Time
+    ${year}  ${month}  ${day}  ${hour}  ${min}  ${sec}   Get Time   year month day hour min sec
+    [Return]   ${year}${month}${day}_${hour}${min}${sec}

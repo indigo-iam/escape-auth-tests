@@ -15,12 +15,13 @@ services:
       - cabundle:/etc/pki
 
   ts:
-    image: andreaceccanti/escape-auth-tests
+    image: indigoiam/escape-auth-tests
 
     environment:
       - TZ=Europe/Rome
       - REQUESTS_CA_BUNDLE=/etc/pki/tls/cert.pem
       - OIDC_AGENT_SECRET
+      - OIDC_AGENT_CMS_SECRET
       - RUN_DEBUG
       - REPORTS_DIR_BASE
 

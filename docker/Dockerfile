@@ -31,15 +31,20 @@ RUN wget https://ci.cloud.cnaf.infn.it/view/repos/job/repo_test_ca/lastSuccessfu
     chown -R test:test /home/test/.globus
 
 RUN yum -y install voms-clients-java gfal2-util gfal2-all gfal2-python davix jq && \
+    curl -sL https://rpm.nodesource.com/setup_14.x | bash - && \
+    yum install -y nodejs && \
+    npm install -g jwt-cli && \
     yum clean all && \
-    yum -y install https://github.com/indigo-dc/oidc-agent/releases/download/v3.3.5/oidc-agent-3.3.5-1.el7.x86_64.rpm && \
+    wget https://repo.data.kit.edu/data-kit-edu-centos7.repo -O /etc/yum.repos.d/data-kit-edu-centos7.repo && \
+    yum install -y oidc-agent && \
     pip3 install --upgrade pip && \
     pip3 install --upgrade robotframework-httplibrary && \
     pip3 install --upgrade oic && \
     pip3 install --upgrade requests && \
     pip3 install --upgrade pyyaml && \
     pip3 install --upgrade shyaml && \
-    pip3 install --upgrade pyjwt && \
+    # bug in newer pyjwt version reported in https://github.com/Azure/azure-sdk-for-python/issues/16035
+    pip3 install pyjwt==1.7.0 && \
     rm -rf /var/cache/yum
 
 ENV TINI_VERSION v0.18.0

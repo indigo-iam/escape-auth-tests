@@ -4,7 +4,7 @@ on:
   push:
 
   schedule:
-    - cron: '0/4 * * * *'
+    - cron: '*/20 * * * *'
 
 jobs:
   run-testsuite:
@@ -18,7 +18,7 @@ jobs:
       - name: Setup oidc-agent account
         run: |
           mkdir -p ${HOME}/.config/oidc-agent
-          cp assets/oidc-agent/escape-monitoring $HOME/.config/oidc-agent/escape-monitoring
+          cp assets/oidc-agent/* $HOME/.config/oidc-agent/
 
       - name: Fetch crls
         run: docker-compose up trust
@@ -26,6 +26,7 @@ jobs:
       - name: Run test suite
         env:
           OIDC_AGENT_SECRET: ${{ secrets.OIDC_AGENT_SECRET }}
+          OIDC_AGENT_CMS_SECRET: ${{ secrets.OIDC_AGENT_CMS_SECRET }}
         run: |
           mkdir -p reports && chmod 777 reports
           docker-compose up -d ts 

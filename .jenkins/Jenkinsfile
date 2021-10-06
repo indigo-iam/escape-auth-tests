@@ -15,6 +15,7 @@ pipeline {
 
   environment {
     OIDC_AGENT_SECRET = credentials('escape_auth_oidc_agent_secret')
+    OIDC_AGENT_CMS_SECRET = credentials('escape_auth_oidc_agent_cms_secret')
     REPORTS_DIR_BASE = '/tmp/reports'
   }
 
@@ -27,7 +28,7 @@ pipeline {
           mkdir -p reports && rm -rf reports/*
           mkdir -p /tmp/reports  && rm -rf /tmp/reports/*
           mkdir -p ${HOME}/.config/oidc-agent
-          cp assets/oidc-agent/escape-monitoring $HOME/.config/oidc-agent/escape-monitoring
+          cp assets/oidc-agent/* $HOME/.config/oidc-agent/
           docker-compose up trust
           docker-compose up -d ts
           docker-compose exec -T ts bash -c 'cd test-suite && sh ci/run.sh'

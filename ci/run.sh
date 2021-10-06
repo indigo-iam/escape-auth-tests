@@ -11,7 +11,9 @@ now=$(date +%Y%m%d_%H%M%S)
 reports_dir=${REPORTS_DIR_BASE}/reports/${now}
 
 eval $(oidc-agent --no-autoload)
+
 oidc-add --pw-cmd='echo $OIDC_AGENT_SECRET' escape-monitoring
+oidc-add --pw-cmd='echo $OIDC_AGENT_CMS_SECRET' escape-auth-tests-cms
 
 client_config=$(mktemp)
 chmod 600 ${client_config}
@@ -79,9 +81,7 @@ unset X509_USER_PROXY
 
 echo -e "\nLooking for new RSEs from CRIC..."
 
-joint_variables=$(mktemp)
-cat test/variables.yaml > ${joint_variables}
-./ci/assets/fetch-rses-from-cric.sh >> ${joint_variables}
+./ci/assets/fetch-rses-from-cric.sh > /dev/null 2>&1
 
 if [ $? -eq 0 ]; then
     echo -e "Already up to date.\n"
@@ -90,8 +90,7 @@ else
     echo -e "Please add missing datalake endpoints.\n"
 fi
 
-endpoints=$(cat ${joint_variables} | shyaml keys endpoints)
-rm -rf ${joint_variables}
+endpoints=$(cat test/variables.yaml | shyaml keys endpoints)
 
 ec_dl=0
 
