@@ -62,3 +62,7 @@ echo
 echo "The output of 'voms-proxy-info -all' on the proxy is:"
 
 voms-proxy-info -all
+
+# remove proxy if you don't need it in the next test suite
+# rm -rf ${proxy_file}
+unset X509_USER_PROXY

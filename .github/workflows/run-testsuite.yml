@@ -27,10 +27,11 @@ jobs:
         env:
           OIDC_AGENT_SECRET: ${{ secrets.OIDC_AGENT_SECRET }}
           OIDC_AGENT_CMS_SECRET: ${{ secrets.OIDC_AGENT_CMS_SECRET }}
+          ROBOT_OPTIONS: --include step-0 --include iam
         run: |
           mkdir -p reports && chmod 777 reports
           docker-compose up -d ts 
-          docker-compose exec -T ts bash -c 'cd test-suite && sh ci/run.sh'
+          docker-compose exec -T -e ROBOT_OPTIONS="${ROBOT_OPTIONS}" ts bash -c 'cd test-suite && sh ci/run.sh'
           docker-compose down
           rm -rf $HOME/.config/oidc-agent
 

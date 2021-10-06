@@ -34,10 +34,6 @@ ec_iam=$?
 
 if [ -z "${SKIP_DATALAKE_TESTSUITE}" ]; then
 
-  # remove proxy if you don't need it in the next test suite
-  rm -rf ${proxy_file}
-  unset X509_USER_PROXY
-
   echo -e "\nLooking for new RSEs from CRIC..."
 
   ./utils/fetch-rses-from-cric.sh > /dev/null 2>&1

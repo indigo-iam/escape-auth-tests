@@ -13,10 +13,15 @@ pipeline {
 
   triggers { cron('0 11 * * *') }
 
+  parameters {
+    string(defaultValue: "--include step-0 --include iam" , description: 'Robot arguments', name: 'ROBOT_ARGS')
+  }
+
   environment {
     OIDC_AGENT_SECRET = credentials('escape_auth_oidc_agent_secret')
     OIDC_AGENT_CMS_SECRET = credentials('escape_auth_oidc_agent_cms_secret')
     REPORTS_DIR_BASE = '/tmp/reports'
+    ROBOT_ARGS = "${params.ROBOT_ARGS}"
   }
 
   stages {

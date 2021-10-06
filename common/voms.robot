@@ -9,8 +9,9 @@ ${voms.args.default}   -voms escape -cert /tmp/x509up_ts -noregen
 *** Keywords ***
 
 Get proxy path
-	${userId}   Run   id -u
-	[Return]   /tmp/x509up_u${userId}
+	${rc}   ${userId}   Execute and Check Success   id -u
+    ${output}   Set Variable   /tmp/x509up_u${userId}
+	[Return]   ${output}
 
 Get proxy info   [Arguments]   ${opts}=-all 
     ${output}   Execute and Check Success   voms-proxy-info ${opts}
@@ -18,4 +19,8 @@ Get proxy info   [Arguments]   ${opts}=-all
 
 Create VOMS proxy   [Arguments]   ${voms.args}=${voms.args.default}
     ${output}   Execute and Check Success   voms-proxy-init ${voms.args}
+    [Return]   ${output}
+
+Delete VOMS proxy   [Arguments]   ${opts}=${EMPTY}
+    ${output}   Execute and Check Success   voms-proxy-destroy ${opts}
     [Return]   ${output}
