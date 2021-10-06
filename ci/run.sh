@@ -75,32 +75,36 @@ REPORTS_DIR=${reports_dir}/iam ./run-testsuite.sh
 
 ec_iam=$?
 
-# remove proxy if you don't need it in the next test suite
-rm -rf ${proxy_file}
-unset X509_USER_PROXY
+if [ -z "${SKIP_DATALAKE_TESTSUITE}" ]; then
 
-echo -e "\nLooking for new RSEs from CRIC..."
+  # remove proxy if you don't need it in the next test suite
+  rm -rf ${proxy_file}
+  unset X509_USER_PROXY
 
-./ci/assets/fetch-rses-from-cric.sh > /dev/null 2>&1
+  echo -e "\nLooking for new RSEs from CRIC..."
 
-if [ $? -eq 0 ]; then
-    echo -e "Already up to date.\n"
-else
-    echo    "WARNING: your 'variables.yaml' file is not up to date."
-    echo -e "Please add missing datalake endpoints.\n"
-fi
+  ./ci/assets/fetch-rses-from-cric.sh > /dev/null 2>&1
 
-endpoints=$(cat test/variables.yaml | shyaml keys endpoints)
-
-ec_dl=0
-
-for e in ${endpoints}; do
-  REPORTS_DIR=${reports_dir}/${e} ./run-testsuite.sh ${e}
-
-  if [ $? -ne 0 ]; then
-      (( ec_dl++ ))
+  if [ $? -eq 0 ]; then
+      echo -e "Already up to date.\n"
+  else
+      echo    "WARNING: your 'variables.yaml' file is not up to date."
+      echo -e "Please add missing datalake endpoints.\n"
   fi
-done
+
+  endpoints=$(cat test/variables.yaml | shyaml keys endpoints)
+
+  ec_dl=0
+
+  for e in ${endpoints}; do
+    REPORTS_DIR=${reports_dir}/${e} ./run-testsuite.sh ${e}
+
+    if [ $? -ne 0 ]; then
+        (( ec_dl++ ))
+    fi
+  done
+
+fi
 
 set -e
 

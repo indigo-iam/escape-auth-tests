@@ -12,8 +12,8 @@ Get proxy path
 	${userId}   Run   id -u
 	[Return]   /tmp/x509up_u${userId}
 
-Get proxy info   [Arguments]   
-    ${output}   Execute and Check Success   voms-proxy-info -all
+Get proxy info   [Arguments]   ${opts}=-all 
+    ${output}   Execute and Check Success   voms-proxy-info ${opts}
     [Return]   ${output}
 
 Create VOMS proxy   [Arguments]   ${voms.args}=${voms.args.default}

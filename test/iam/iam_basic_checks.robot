@@ -28,6 +28,7 @@ IAM token service work as expected
     Should Be Equal  ${wlcg.version}  1.0
 
 IAM VOMS service work as expected
-    Create VOMS proxy   -voms escape -noregen
-    ${rc}  ${out}   Get proxy info
+    Create VOMS proxy   -voms escape -noregen -cert /tmp/x509up_ts -out /tmp/x509up_voms_check
+    ${rc}  ${out}   Get proxy info   -file /tmp/x509up_voms_check -all
     Should Contain   ${out}   /escape
+    Execute And Check Success   rm -f /tmp/x509up_voms_check
