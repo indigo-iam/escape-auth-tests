@@ -4,7 +4,7 @@ Resource   common/utils.robot
 
 *** Variables ***
 
-${voms.args.default}   -voms escape
+${voms.args.default}   -voms escape -cert /tmp/x509up_ts -noregen
 
 *** Keywords ***
 
