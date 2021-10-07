@@ -23,13 +23,13 @@ Create working directory
     Set Global Variable   ${NOW}
     Create VOMS proxy
     ${url}   Suite Base URL
-    ${rc}   ${out}   Gfal mkdir Success   ${url}   -p
+    ${rc}   ${out}   Gfal mkdir Success   ${url}
     Should Contain   ${out}   ${url}
     Delete VOMS proxy
 
 Cleanup working directory
     Create VOMS proxy
     ${url}   Suite Base URL
-    ${rc}   ${out}   Gfal rm Success   ${url}
+    ${rc}   ${out}   Gfal rm Success   ${url}  -r
     Should Contain   ${out}   RMDIR
     Delete VOMS proxy

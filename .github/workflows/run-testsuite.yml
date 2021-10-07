@@ -27,7 +27,7 @@ jobs:
         env:
           OIDC_AGENT_SECRET: ${{ secrets.OIDC_AGENT_SECRET }}
           OIDC_AGENT_CMS_SECRET: ${{ secrets.OIDC_AGENT_CMS_SECRET }}
-          ROBOT_OPTIONS: --include step-0 --include iam
+          ROBOT_OPTIONS: --exclude step-1
         run: |
           mkdir -p reports && chmod 777 reports
           docker-compose up -d ts 

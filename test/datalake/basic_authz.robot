@@ -13,7 +13,7 @@ Force Tags   basic-authz
 *** Test cases ***
 
 Read access denied to IAM ESCAPE general clients
-    [Tags]   step-0   step-1
+    [Tags]   step-1
     ${token}   Get token   scope=-s openid
     ${uuid}   Generate UUID
     ${url}   SE URL   robot-test-${uuid}
@@ -21,7 +21,7 @@ Read access denied to IAM ESCAPE general clients
     Should Contain   ${out}  403
 
 Read access granted to default groups
-    [Tags]   step-0   step-1
+    [Tags]   step-1
     ${token}   Get token   scope=-s wlcg.groups -s openid
     ${uuid}   Generate UUID
     ${url}   SE URL   robot-test-${uuid}
@@ -45,7 +45,11 @@ Full access granted to default groups
     Should Contain   ${out}   404
     ${rc}   ${out}   Gfal mkdir Success   ${url}
     Should Contain   ${out}   ${url}
-    ${rc}   ${out}   Gfal rm Success   ${url}
+    ${rc}   ${out}   Gfal copy Success   /etc/services   ${url}
+    Should Contain   ${out}   ${url}/services
+    ${rc}   ${out}   Gfal rm Success   ${url}/services
+    Should Contain   ${out}   DELETED
+    ${rc}   ${out}   Gfal rm Success   ${url}   -r
     Should Contain   ${out}   RMDIR
 
 Full access granted to /escape/data-manager group
@@ -57,5 +61,5 @@ Full access granted to /escape/data-manager group
     Should Contain   ${out}   404
     ${rc}   ${out}   Gfal mkdir Success   ${url}
     Should Contain   ${out}   ${url}
-    ${rc}   ${out}   Gfal rm Success   ${url}
+    ${rc}   ${out}   Gfal rm Success   ${url}  -r
     Should Contain   ${out}   RMDIR
