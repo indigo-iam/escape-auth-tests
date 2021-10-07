@@ -24,6 +24,7 @@ services:
       - OIDC_AGENT_CMS_SECRET
       - RUN_DEBUG
       - REPORTS_DIR_BASE
+      - ROBOT_ARGS
 
     volumes:
       - cabundle:/etc/pki
