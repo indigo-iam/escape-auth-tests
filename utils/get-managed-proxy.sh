@@ -19,8 +19,6 @@ if [[ ${BT} =~ ^Could* ]]; then
     exit 1
 fi
 
-
-
 proxyresponse=$(mktemp)
 chmod 600 ${proxyresponse}
 

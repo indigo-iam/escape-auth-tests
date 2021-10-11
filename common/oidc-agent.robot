@@ -1,6 +1,6 @@
 *** Variables ***
 
-${oidc-agent.scope.default}   -s storage.read:/ -s storage.modify:/ -s openid
+${oidc-agent.scope.default}   -s openid
 ${oidc-agent.account}  escape-monitoring
 ${bearer.env}   BEARER_TOKEN
 

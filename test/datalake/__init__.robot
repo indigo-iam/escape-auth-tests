@@ -3,7 +3,7 @@
 Library    OperatingSystem
 Library    Collections
 
-Resource   common/oidc-agent.robot
+Resource   common/voms.robot
 Resource   common/endpoint.robot
 Resource   common/utils.robot
 Resource   common/gfal.robot
@@ -21,13 +21,15 @@ Create working directory
     Set Global Variable   ${SUITE_UUID}   ${suite_uuid}
     ${NOW}   Get NOW Time
     Set Global Variable   ${NOW}
-    ${token}   Get token
+    Create VOMS proxy
     ${url}   Suite Base URL
-    ${rc}   ${out}   Gfal mkdir Success   ${url}   -p
+    ${rc}   ${out}   Gfal mkdir Success   ${url}
     Should Contain   ${out}   ${url}
+    Delete VOMS proxy
 
 Cleanup working directory
-    ${token}   Get token
+    Create VOMS proxy
     ${url}   Suite Base URL
-    ${rc}   ${out}   Gfal rm Success   ${url}
+    ${rc}   ${out}   Gfal rm Success   ${url}  -r
     Should Contain   ${out}   RMDIR
+    Delete VOMS proxy
