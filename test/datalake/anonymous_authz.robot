@@ -52,7 +52,8 @@ Delete directory denied to unauthenticated clients
 *** Keywords ***
 
 Upload file with VOMS proxy
-  Create VOMS proxy
+  ${rc}   ${out}   Create VOMS proxy
+  Should Contain   ${out}   Created proxy in
   ${uuid}   Generate UUID
   ${url}   SE URL   write-access-denied-${uuid}
   Set Test Variable   ${url}
@@ -66,7 +67,8 @@ Upload file with VOMS proxy
   Delete VOMS proxy
 
 Create directory with VOMS proxy
-  Create VOMS proxy
+  ${rc}   ${out}   Create VOMS proxy
+  Should Contain   ${out}   Created proxy in
   ${uuid}   Generate UUID
   ${url}   SE URL   create-directory-denied-${uuid}
   Set Test Variable   ${url}

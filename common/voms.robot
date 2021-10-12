@@ -18,8 +18,8 @@ Get proxy info   [Arguments]   ${opts}=-all
     [Return]   ${output}
 
 Create VOMS proxy   [Arguments]   ${voms.args}=${voms.args.default}
-    ${output}   Execute and Check Success   voms-proxy-init ${voms.args}
-    [Return]   ${output}
+    ${rc}   ${output}   Execute and Check Success   voms-proxy-init ${voms.args}
+    [Return]   ${rc}   ${output}
 
 Delete VOMS proxy   [Arguments]   ${opts}=${EMPTY}
     ${output}   Execute and Check Success   voms-proxy-destroy ${opts}

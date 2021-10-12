@@ -21,7 +21,8 @@ Create working directory
     Set Global Variable   ${SUITE_UUID}   ${suite_uuid}
     ${NOW}   Get NOW Time
     Set Global Variable   ${NOW}
-    Create VOMS proxy
+    ${rc}   ${out}   Create VOMS proxy
+    Should Contain   ${out}   Created proxy in
     ${url}   Suite Base URL
     ${rc}   ${out}   Gfal mkdir Success   ${url}
     Should Contain   ${out}   ${url}
@@ -32,7 +33,8 @@ Create working directory
     Delete VOMS proxy
 
 Cleanup working directory
-    Create VOMS proxy
+    ${rc}   ${out}   Create VOMS proxy
+    Should Contain   ${out}   Created proxy in
     ${url}   Suite Base URL
     ${rc}   ${out}   Gfal rm Success   ${url}  -r
     Should Contain   ${out}   RMDIR
