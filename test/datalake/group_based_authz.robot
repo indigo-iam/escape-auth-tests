@@ -7,7 +7,7 @@ Resource    common/utils.robot
 
 Variables   test/variables.yaml
 
-Force Tags   basic-authz
+Force Tags   group-based-authz
 
 
 *** Test cases ***

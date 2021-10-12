@@ -18,6 +18,12 @@ Gfal Read Success
     ${rc}  ${out}   Execute and Check Success  ${cmd}
     [Return]  ${rc}  ${out}
 
+Gfal Read File Success   
+    [Arguments]  ${url}  ${opts}=${EMPTY}
+    ${cmd}   Set Variable   gfal-cat ${opts} ${url}
+    ${rc}  ${out}   Execute and Check Success  ${cmd}
+    [Return]  ${rc}  ${out}
+
 Gfal copy Error   
     [Arguments]  ${file}  ${url}  ${opts}=${EMPTY}
     ${cmd}   Set Variable   gfal-copy ${opts} ${file} ${url}
