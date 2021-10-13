@@ -32,7 +32,7 @@ Write file denied to unauthenticated clients
     Should Contain   ${out}  401
 
 Delete file denied to unauthenticated clients
-    Upload file with VOMS proxy
+    ${url}   ${file.basename}   Upload file with VOMS proxy
     ${rc}   ${out}   Gfal rm Error  ${url}/${file.basename}
     Should Contain   ${out}   401
 
@@ -43,7 +43,7 @@ Create directory denied to unauthenticated clients
     Should Contain   ${out}  401
 
 Delete directory denied to unauthenticated clients
-    Create directory with VOMS proxy
+    ${url}   Create directory with VOMS proxy
     ${rc}   ${out}   Gfal rm Error  ${url}
     Should Contain   ${out}   401
 
@@ -55,21 +55,20 @@ Upload file with VOMS proxy
   Should Contain   ${out}   Created proxy in
   ${uuid}   Generate UUID
   ${url}   SE URL   write-access-denied-${uuid}
-  Set Test Variable   ${url}
   ${rc}   ${out}   Gfal mkdir Success   ${url}
   Should Contain   ${out}   ${url}
   ${file}   ${file.path}   ${file.basename}   Get File Location From Variable
-  Set Test Variable   ${file.basename}
   ${rc}   ${out}   Gfal copy Success   ${file}   ${url}
   Should Contain   ${out}   ${url}/${file.basename}
   Delete VOMS proxy
+  [Return]   ${url}   ${file.basename}
 
 Create directory with VOMS proxy
   ${rc}   ${out}   Create VOMS proxy
   Should Contain   ${out}   Created proxy in
   ${uuid}   Generate UUID
   ${url}   SE URL   create-directory-denied-${uuid}
-  Set Test Variable   ${url}
   ${rc}   ${out}   Gfal mkdir Success   ${url}
   Should Contain   ${out}   ${url}
   Delete VOMS proxy
+  [Return]   ${url}
