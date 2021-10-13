@@ -32,6 +32,7 @@ Create working directory
     Delete VOMS proxy
 
 Cleanup working directory
+    Remove Environment Variable   BEARER_TOKEN
     ${rc}   ${out}   Create VOMS proxy
     Should Contain   ${out}   Created proxy in
     ${url}   Suite Base URL
