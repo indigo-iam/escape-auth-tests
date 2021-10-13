@@ -73,15 +73,7 @@ Get NOW Time
     ${year}  ${month}  ${day}  ${hour}  ${min}  ${sec}   Get Time   year month day hour min sec
     [Return]   ${year}${month}${day}_${hour}${min}${sec}
 
-Get File Path
-    Get From Dictionary   ${file}   path
-    [Return]   ${file.path}
-
-Get File Basename
-    Get From Dictionary   ${file}   basename
-    [Return]   ${file.basename}
-
-Get File
-    ${file.path}   Get File Path
-    ${file.basename}   Get File Basename
-    [Return]   ${file.path}/${file.basename}
+Get File Location From Variable
+    ${file.path}   Get From Dictionary   ${file}   path
+    ${file.basename}   Get From Dictionary   ${file}   basename
+    [Return]   ${file.path}/${file.basename}   ${file.path}   ${file.basename}

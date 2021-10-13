@@ -20,15 +20,14 @@ List directory denied to unauthenticated clients
 
 Read file denied to unauthenticated clients
     ${url}   Suite Base URL
-    ${file}   Get File Basename
-    ${rc}   ${out}   Gfal cat Error  ${url}/${file}
+    ${file}   ${file.path}   ${file.basename}   Get File Location From Variable
+    ${rc}   ${out}   Gfal cat Error  ${url}/${file.basename}
     Should Contain   ${out}   401
 
 Write file denied to unauthenticated clients
     ${uuid}   Generate UUID
     ${url}   SE URL   write-access-denied-${uuid}
-    ${file}   Get File
-    ${file.basename}   Get File Basename
+    ${file}   ${file.path}   ${file.basename}   Get File Location From Variable
     ${rc}   ${out}   Gfal copy Error   ${file}   ${url}/${file.basename}   -pf
     Should Contain   ${out}  401
 
@@ -59,8 +58,7 @@ Upload file with VOMS proxy
   Set Test Variable   ${url}
   ${rc}   ${out}   Gfal mkdir Success   ${url}
   Should Contain   ${out}   ${url}
-  ${file}   Get File
-  ${file.basename}   Get File Basename
+  ${file}   ${file.path}   ${file.basename}   Get File Location From Variable
   Set Test Variable   ${file.basename}
   ${rc}   ${out}   Gfal copy Success   ${file}   ${url}
   Should Contain   ${out}   ${url}/${file.basename}

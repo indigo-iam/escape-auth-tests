@@ -26,9 +26,8 @@ Create working directory
     ${url}   Suite Base URL
     ${rc}   ${out}   Gfal mkdir Success   ${url}
     Should Contain   ${out}   ${url}
-    ${file}   Get File
+    ${file}   ${file.path}   ${file.basename}   Get File Location From Variable
     ${rc}   ${out}   Gfal copy Success   ${file}   ${url}
-    ${file.basename}   Get File Basename
     Should Contain   ${out}   ${url}/${file.basename}
     Delete VOMS proxy
 
