@@ -24,13 +24,6 @@ endpoints:
     endpoint: davs://lapp-testse01.in2p3.fr:443
     paths:
       prefix: /dpm/in2p3.fr/home/escape/rucio/lapp_dpm
-  aws_webdav:
-    enable: true
-    desc: AWS_WEBDAV-s3
-    type:
-    endpoint: https://myescapebucket.s3.amazonaws.com:443
-    paths:
-      prefix: /
   cnaf-storm:
     enable: true
     desc: CNAF-STORM-davs
