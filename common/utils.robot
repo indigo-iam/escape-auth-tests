@@ -6,6 +6,9 @@ Library    Collections
 Library    HttpSupportLibrary
 Library    VOMSHelperLibrary
 
+Resource   common/voms.robot
+
+
 *** Keywords ***
 
 Generate UUID
@@ -77,3 +80,21 @@ Get File Location From Variable
     ${file.path}   Get From Dictionary   ${file}   path
     ${file.basename}   Get From Dictionary   ${file}   basename
     [Return]   ${file.path}/${file.basename}   ${file.path}   ${file.basename}
+
+Create sub-suite Directory with VOMS proxy
+    [Arguments]   ${prefix.dir}=ts
+    ${rc}   ${out}   Create VOMS proxy
+    Should Contain   ${out}   Created proxy in
+    ${uuid}   Generate UUID
+    ${url}   SE URL   ${prefix.dir}-${uuid}
+    ${rc}   ${out}   Gfal mkdir Success   ${url}
+    Should Contain   ${out}   ${url}
+    [Return]   ${url}
+
+Upload file in sub-suite Directory with VOMS proxy
+    [Arguments]   ${prefix.dir}=ts
+    ${url}   Create sub-suite Directory with VOMS proxy   ${prefix.dir}
+    ${file}   ${file.path}   ${file.basename}   Get File Location From Variable
+    ${rc}   ${out}   Gfal copy Success   ${file}   ${url}
+    Should Contain   ${out}   ${url}/${file.basename}
+    [Return]   ${url}   ${file.basename}
