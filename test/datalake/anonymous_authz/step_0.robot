@@ -20,16 +20,17 @@ List directory denied to unauthenticated clients
 
 Read file denied to unauthenticated clients
     ${url}   Suite Base URL
-    ${file}   ${file.path}   ${file.basename}   Get File Location From Variable
-    ${rc}   ${out}   Gfal cat Error  ${url}/${file.basename}
+    ${rc}   ${out}   Gfal cat Error  ${url}/${FILE_BASENAME}
     Should Contain Any   ${out}  401   403   Permission denied   ignore_case=True
 
 Write file denied to unauthenticated clients
     ${uuid}   Generate UUID
     ${url}   SE URL   write-access-denied-${uuid}
-    ${file}   ${file.path}   ${file.basename}   Get File Location From Variable
-    ${rc}   ${out}   Gfal copy Error   ${file}   ${url}/${file.basename}   -pf
+    ${local_file}   Create Random Temporary File
+    ${file.basename}   Run   basename ${local_file}
+    ${rc}   ${out}   Gfal copy Error   ${local_file}   ${url}/${file.basename}   -pf
     Should Contain Any   ${out}  401   403   Permission denied   ignore_case=True
+    Remove Temporary File   ${file.basename}
 
 Delete file denied to unauthenticated clients
     ${url}   ${file.basename}   Upload file in sub-suite Directory with VOMS proxy   anonymous-access-denied

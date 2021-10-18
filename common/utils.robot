@@ -48,7 +48,7 @@ Remove Temporary File  [Arguments]  ${file}
 
 Create Random Temporary File
     [Arguments]   ${content}=${EMPTY}
-    ${file}   Execute and Check Success   uuid-gen
+    ${file}   Generate UUID
     ${path}    Normalize Path   ${TEMPDIR}/${file}
     File Should Not Exist   ${path}
     Create File   ${path}  ${content}
@@ -76,11 +76,6 @@ Get NOW Time
     ${year}  ${month}  ${day}  ${hour}  ${min}  ${sec}   Get Time   year month day hour min sec
     [Return]   ${year}${month}${day}_${hour}${min}${sec}
 
-Get File Location From Variable
-    ${file.path}   Get From Dictionary   ${file}   path
-    ${file.basename}   Get From Dictionary   ${file}   basename
-    [Return]   ${file.path}/${file.basename}   ${file.path}   ${file.basename}
-
 Create sub-suite Directory with VOMS proxy
     [Arguments]   ${prefix.dir}=ts
     ${rc}   ${out}   Create VOMS proxy
@@ -92,9 +87,11 @@ Create sub-suite Directory with VOMS proxy
     [Return]   ${url}
 
 Upload file in sub-suite Directory with VOMS proxy
-    [Arguments]   ${prefix.dir}=ts
+    [Arguments]   ${prefix.dir}=ts   ${content}=${EMPTY}
     ${url}   Create sub-suite Directory with VOMS proxy   ${prefix.dir}
-    ${file}   ${file.path}   ${file.basename}   Get File Location From Variable
-    ${rc}   ${out}   Gfal copy Success   ${file}   ${url}
+    ${local_file}   Create Random Temporary File   ${content}
+    ${file.basename}   Run   basename ${local_file}
+    ${rc}   ${out}   Gfal copy Success   ${local_file}   ${url}
     Should Contain   ${out}   ${url}/${file.basename}
+    Remove Temporary file   ${file.basename}
     [Return]   ${url}   ${file.basename}

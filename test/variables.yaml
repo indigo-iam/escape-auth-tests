@@ -5,10 +5,6 @@ oauth:
 oidc-agent:
   provider-alias: escape-monitoring
 
-file:
-  path: /etc/grid-security/vomsdir/escape
-  basename: voms-escape.cloud.cnaf.infn.it.lsc
-
 endpoints:
   cnaf-amnesiac:
     enable: true

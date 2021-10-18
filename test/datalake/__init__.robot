@@ -13,6 +13,10 @@ Variables   test/variables.yaml
 Suite Setup      Create working directory
 Suite Teardown   Cleanup working directory
 
+*** Variables ***
+
+${tmp.filename}   escape-suite-setup-file
+
 
 *** Keywords ***
 
@@ -26,9 +30,11 @@ Create working directory
     ${url}   Suite Base URL
     ${rc}   ${out}   Gfal mkdir Success   ${url}
     Should Contain   ${out}   ${url}
-    ${file}   ${file.path}   ${file.basename}   Get File Location From Variable
-    ${rc}   ${out}   Gfal copy Success   ${file}   ${url}
-    Should Contain   ${out}   ${url}/${file.basename}
+    ${local_file}   Create Temporary File   ${tmp.filename}   escape-test-content
+    ${FILE_BASENAME}   Run   basename ${local_file}
+    Set Global Variable   ${FILE_BASENAME}
+    ${rc}   ${out}   Gfal copy Success   ${local_file}   ${url}
+    Should Contain   ${out}   ${url}/${FILE_BASENAME}
     Delete VOMS proxy
 
 Cleanup working directory
@@ -39,3 +45,4 @@ Cleanup working directory
     ${rc}   ${out}   Gfal rm Success   ${url}  -r
     Should Contain   ${out}   RMDIR
     Delete VOMS proxy
+    Remove Temporary file   ${tmp.filename}

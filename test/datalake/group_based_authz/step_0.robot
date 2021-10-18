@@ -22,7 +22,7 @@ List directory allowed to default groups
 
 Read file allowed to default groups
     ${rc}   ${out}   Gfal cat Success  ${url}/${file}
-    Should Contain   ${out}   escape
+    Should Contain   ${out}   ${file.content}
 
 Write file allowed to default groups
     ${rc}   ${out}   Gfal copy Success   /etc/services   ${url}
@@ -44,8 +44,12 @@ Delete directory allowed to default groups
 *** Keywords ***
 
 Set suite path and get token with default groups scope
-    ${url}   ${file}   Upload file in sub-suite Directory with VOMS proxy   full-access
+    ${url}   ${file}   Upload file in sub-suite Directory with VOMS proxy   full-access   ${file.content}
     Set Suite Variable   ${url}
     Set Suite Variable   ${file}
     Delete VOMS proxy
     ${token}   Get token   scope=-s wlcg.groups -s openid
+
+*** Variables ***
+
+${file.content}   escape-suite-content-file
