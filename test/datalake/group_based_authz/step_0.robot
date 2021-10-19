@@ -44,7 +44,7 @@ Delete directory allowed to default groups
 *** Keywords ***
 
 Set suite path and get token with default groups scope
-    ${url}   ${file}   Upload file in sub-suite Directory with VOMS proxy   full-access   ${file.content}
+    ${url}   ${file}   Upload file in sub-suite Directory with VOMS proxy   group-based-full-access   ${file.content}
     Set Suite Variable   ${url}
     Set Suite Variable   ${file}
     Delete VOMS proxy

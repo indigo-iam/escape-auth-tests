@@ -33,7 +33,7 @@ Write file denied to unauthenticated clients
     Remove Temporary File   ${file.basename}
 
 Delete file denied to unauthenticated clients
-    ${url}   ${file.basename}   Upload file in sub-suite Directory with VOMS proxy   anonymous-access-denied
+    ${url}   ${file.basename}   Upload file in sub-suite Directory with VOMS proxy   anonymous-delete-file-denied
     Delete VOMS proxy
     ${rc}   ${out}   Gfal rm Error  ${url}/${file.basename}
     Should Contain Any   ${out}  401   403   Permission denied   ignore_case=True
@@ -45,7 +45,7 @@ Create directory denied to unauthenticated clients
     Should Contain Any   ${out}  401   403   Permission denied   ignore_case=True
 
 Delete directory denied to unauthenticated clients
-    ${url}   Create sub-suite Directory with VOMS proxy   anonymous-access-denied
+    ${url}   Create sub-suite Directory with VOMS proxy   anonymous-delete-directory-denied
     Delete VOMS proxy
     ${rc}   ${out}   Gfal rm Error  ${url}   -r
     Should Contain Any   ${out}  401   403   Permission denied   ignore_case=True
