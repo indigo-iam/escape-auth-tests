@@ -83,11 +83,4 @@ endpoints:
     endpoint: davs://door05.pic.es:8452
     paths:
       prefix: //rucio/pic_inject
-  sara-swift:
-    enable: true
-    desc: SARA-SWIFT-s3
-    type:
-    endpoint: https://proxy.swift.surfsara.nl:443
-    paths:
-      prefix: /
 
