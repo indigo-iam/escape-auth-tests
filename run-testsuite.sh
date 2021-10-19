@@ -34,7 +34,7 @@ if [ $# -eq 0 ]; then
   robot ${ARGS} test/iam
 elif [ $# -eq 1 ]; then
   echo "Datalake test suite run against: $1"
-  robot ${ARGS} --variable se_alias:$1 --name $1 -G $1 test/datalake
+  robot ${ARGS} --variable se_alias:$1 --name $1 -G rse-$1 test/datalake
 else
   echo "Invalid number of arguments"
   exit 1

@@ -6,6 +6,9 @@ Library    Collections
 Library    HttpSupportLibrary
 Library    VOMSHelperLibrary
 
+Resource   common/voms.robot
+
+
 *** Keywords ***
 
 Generate UUID
@@ -45,7 +48,7 @@ Remove Temporary File  [Arguments]  ${file}
 
 Create Random Temporary File
     [Arguments]   ${content}=${EMPTY}
-    ${file}   Execute and Check Success   uuid-gen
+    ${file}   Generate UUID
     ${path}    Normalize Path   ${TEMPDIR}/${file}
     File Should Not Exist   ${path}
     Create File   ${path}  ${content}
@@ -72,3 +75,23 @@ Create Suite Directory
 Get NOW Time
     ${year}  ${month}  ${day}  ${hour}  ${min}  ${sec}   Get Time   year month day hour min sec
     [Return]   ${year}${month}${day}_${hour}${min}${sec}
+
+Create sub-suite Directory with VOMS proxy
+    [Arguments]   ${prefix.dir}=ts
+    ${rc}   ${out}   Create VOMS proxy
+    Should Contain   ${out}   Created proxy in
+    ${uuid}   Generate UUID
+    ${url}   SE URL   ${prefix.dir}-${uuid}
+    ${rc}   ${out}   Gfal mkdir Success   ${url}
+    Should Contain   ${out}   ${url}
+    [Return]   ${url}
+
+Upload file in sub-suite Directory with VOMS proxy
+    [Arguments]   ${prefix.dir}=ts   ${content}=${EMPTY}
+    ${url}   Create sub-suite Directory with VOMS proxy   ${prefix.dir}
+    ${local_file}   Create Random Temporary File   ${content}
+    ${file.basename}   Run   basename ${local_file}
+    ${rc}   ${out}   Gfal copy Success   ${local_file}   ${url}
+    Should Contain   ${out}   ${url}/${file.basename}
+    Remove Temporary file   ${file.basename}
+    [Return]   ${url}   ${file.basename}

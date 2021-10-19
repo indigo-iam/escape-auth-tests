@@ -20,13 +20,6 @@ endpoints:
     endpoint: davs://lapp-testse01.in2p3.fr:443
     paths:
       prefix: /dpm/in2p3.fr/home/escape/rucio/lapp_dpm
-  aws_webdav:
-    enable: true
-    desc: AWS_WEBDAV-s3
-    type:
-    endpoint: https://myescapebucket.s3.amazonaws.com:443
-    paths:
-      prefix: /
   cnaf-storm:
     enable: true
     desc: CNAF-STORM-davs
@@ -90,11 +83,4 @@ endpoints:
     endpoint: davs://door05.pic.es:8452
     paths:
       prefix: //rucio/pic_inject
-  sara-swift:
-    enable: true
-    desc: SARA-SWIFT-s3
-    type:
-    endpoint: https://proxy.swift.surfsara.nl:443
-    paths:
-      prefix: /
 
