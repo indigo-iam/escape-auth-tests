@@ -15,21 +15,25 @@ for k in "${keys[@]}"; do
 		continue;
 	fi
 
-	scheme=$(echo $rse_list | jq -r .rses.$k.protocols[0].scheme)
-	
-	if [[ "$scheme" =~ ^(davs|https)$ ]]; then
-		desc=$(echo $rse_list | jq -r .rses.$k.protocols[0].name)
-		port=$(echo $rse_list | jq -r .rses.$k.protocols[0].port)
-		prefix=$(echo $rse_list | jq -r .rses.$k.protocols[0].prefix)
-		hostname=$(echo $rse_list | jq -r .rses.$k.protocols[0].hostname)
-		echo "  $name:"
-		echo "    enable: true"
-		echo "    desc: $desc"
-		echo "    type:"
-		echo "    endpoint: $scheme://$hostname:$port"
-		echo "    paths:"
-		echo "      prefix: $prefix"
-	else
-		>&2 echo "Skipping endpoint ${name} that has scheme ${scheme}"
-	fi
+	protocols=($(echo $rse_list | jq .rses.$k.protocols | jq keys[]))
+
+	for i in "${protocols[@]}"; do
+		scheme=$(echo $rse_list | jq -r .rses.$k.protocols[$i].scheme)
+		
+		if [[ "$scheme" =~ ^(davs|https)$ ]]; then
+			desc=$(echo $rse_list | jq -r .rses.$k.protocols[$i].name)
+			port=$(echo $rse_list | jq -r .rses.$k.protocols[$i].port)
+			prefix=$(echo $rse_list | jq -r .rses.$k.protocols[$i].prefix)
+			hostname=$(echo $rse_list | jq -r .rses.$k.protocols[$i].hostname)
+			echo "  $name:"
+			echo "    enable: true"
+			echo "    desc: $desc"
+			echo "    type:"
+			echo "    endpoint: $scheme://$hostname:$port"
+			echo "    paths:"
+			echo "      prefix: $prefix"
+		else
+			>&2 echo "Skipping endpoint ${name} that has scheme ${scheme}"
+		fi
+	done
 done
