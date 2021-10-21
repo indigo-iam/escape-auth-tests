@@ -91,7 +91,7 @@ Upload file in sub-suite Directory with VOMS proxy
     ${url}   Create sub-suite Directory with VOMS proxy   ${prefix.dir}
     ${local_file}   Create Random Temporary File   ${content}
     ${file.basename}   Run   basename ${local_file}
-    ${rc}   ${out}   Gfal copy Success   ${local_file}   ${url}
+    ${rc}   ${out}   Gfal copy Success   ${local_file}   ${url}   -t 15
     Should Contain   ${out}   ${url}/${file.basename}
     Remove Temporary file   ${file.basename}
     [Return]   ${url}   ${file.basename}

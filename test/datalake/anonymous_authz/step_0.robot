@@ -37,6 +37,7 @@ Delete file denied to unauthenticated clients
     Delete VOMS proxy
     ${rc}   ${out}   Gfal rm Error  ${url}/${file.basename}
     Should Contain Any   ${out}  401   403   Permission denied   ignore_case=True
+    [Teardown]   Run   voms-proxy-destroy
 
 Create directory denied to unauthenticated clients
     ${uuid}   Generate UUID
@@ -49,3 +50,4 @@ Delete directory denied to unauthenticated clients
     Delete VOMS proxy
     ${rc}   ${out}   Gfal rm Error  ${url}   -r
     Should Contain Any   ${out}  401   403   Permission denied   ignore_case=True
+    [Teardown]   Run   voms-proxy-destroy
