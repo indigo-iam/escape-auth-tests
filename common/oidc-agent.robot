@@ -1,6 +1,7 @@
 *** Variables ***
 
-${oidc-agent.scope.default}   -s openid
+${oidc-agent.scope.default}   -s wlcg.groups -s openid
+
 ${oidc-agent.account}  escape-monitoring
 ${bearer.env}   BEARER_TOKEN
 
