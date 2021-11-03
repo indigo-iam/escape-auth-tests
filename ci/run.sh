@@ -5,7 +5,7 @@ REPORTS_DIR_BASE=${REPORTS_DIR_BASE:-$(pwd)/reports}
 FAIL_ON_TESTS_FAILURE=${FAIL_ON_TESTS_FAILURE:-}
 
 now=$(date +%Y%m%d_%H%M%S)
-reports_dir=${REPORTS_DIR_BASE}/reports/${now}
+reports_dir=${REPORTS_DIR_BASE}/reports/latest
 
 eval $(oidc-agent --no-autoload)
 
