@@ -10,7 +10,11 @@ Variables   test/variables.yaml
 
 Force Tags   group-based-authz   step-0
 
-Suite Setup   Set suite path and get token with default groups scope
+Suite Setup   Run Keywords   
+              ...   Set Authorization Method
+              ...   AND   Set Suite Environment
+              ...   AND   Cleanup Authorization Environment
+              ...   AND   Get token   scope=-s wlcg.groups -s openid
 Suite Teardown   Remove Environment Variable   BEARER_TOKEN
 
 
@@ -43,12 +47,11 @@ Delete directory allowed to default groups
 
 *** Keywords ***
 
-Set suite path and get token with default groups scope
-    ${url}   ${file}   Upload file in sub-suite Directory with VOMS proxy   group-based-full-access   ${file.content}
+Set Suite Environment
+    ${url}   ${file}   Upload File in Suite Sub-Directory   group-based-full-access   ${file.content}
     Set Suite Variable   ${url}
     Set Suite Variable   ${file}
-    Delete VOMS proxy
-    ${token}   Get token   scope=-s wlcg.groups -s openid
+
 
 *** Variables ***
 

@@ -42,7 +42,8 @@ Create Temporary File
     Create File   ${path}  ${content}
     [Return]   ${path}
 
-Remove Temporary File  [Arguments]  ${file}
+Remove Temporary File  
+    [Arguments]  ${file}
     ${path}    Normalize Path   ${TEMPDIR}/${file}
     Remove File   ${path}
 
@@ -76,19 +77,35 @@ Get NOW Time
     ${year}  ${month}  ${day}  ${hour}  ${min}  ${sec}   Get Time   year month day hour min sec
     [Return]   ${year}${month}${day}_${hour}${min}${sec}
 
-Create sub-suite Directory with VOMS proxy
-    [Arguments]   ${prefix.dir}=ts
+Set Authorization Method
     ${rc}   ${out}   Create VOMS proxy
     Should Contain   ${out}   Created proxy in
+    ${status}   ${value}   Run Keyword And Ignore Error   Gfal mkdir Success   ${url}
+    IF   '${status}' == 'FAIL'
+    Delete VOMS proxy   
+    Get token
+    Log    Authentication method used: BEARER token
+    ELSE IF   '${status}' == 'PASS'
+    Log    Authentication method used: VOMS proxy
+    ELSE
+    Log   Unexpected Keyword Status: '${status}'
+    END
+
+Cleanup Authorization Environment
+    Remove Environment Variable   BEARER_TOKEN
+    Run Keyword And Ignore Error   Delete VOMS proxy
+
+Create Suite Sub-Directory
+    [Arguments]   ${prefix.dir}=ts
     ${uuid}   Generate UUID
     ${url}   SE URL   ${prefix.dir}-${uuid}
     ${rc}   ${out}   Gfal mkdir Success   ${url}
     Should Contain   ${out}   ${url}
     [Return]   ${url}
 
-Upload file in sub-suite Directory with VOMS proxy
+Upload File in Suite Sub-Directory
     [Arguments]   ${prefix.dir}=ts   ${content}=${EMPTY}
-    ${url}   Create sub-suite Directory with VOMS proxy   ${prefix.dir}
+    ${url}   Create Suite Sub-Directory   ${prefix.dir}
     ${local_file}   Create Random Temporary File   ${content}
     ${file.basename}   Run   basename ${local_file}
     ${rc}   ${out}   Gfal copy Success   ${local_file}   ${url}
