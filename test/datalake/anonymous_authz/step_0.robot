@@ -12,7 +12,7 @@ Force Tags   anonymous-authz   step-0
 
 Suite Setup   Run Keywords   
               ...   Set Authorization Method
-              ...   AND   Set Suite Environment
+              ...   AND   Set Suite Environment   anonymous-access-denied   random-content
               ...   AND   Cleanup Authorization Environment
 
 
@@ -44,11 +44,3 @@ Create directory denied to unauthenticated clients
 Delete directory denied to unauthenticated clients
     ${rc}   ${out}   Gfal rm Error  ${url}   -r
     Should Contain Any   ${out}  401   403   Permission denied   ignore_case=True
-
-
-*** Keywords ***
-
-Set Suite Environment
-    ${url}   ${file.basename}   Upload File in Suite Sub-Directory   anonymous-access-denied   random-content
-    Set Suite Variable   ${url}
-    Set Suite Variable   ${file.basename}

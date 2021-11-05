@@ -12,7 +12,7 @@ Force Tags   group-based-authz   step-0
 
 Suite Setup   Run Keywords   
               ...   Set Authorization Method
-              ...   AND   Set Suite Environment
+              ...   AND   Set Suite Environment   group-based-full-access   ${file.content}
               ...   AND   Cleanup Authorization Environment
               ...   AND   Get token   scope=-s wlcg.groups -s openid
 Suite Teardown   Remove Environment Variable   BEARER_TOKEN
@@ -25,7 +25,7 @@ List directory allowed to default groups
     Should Contain   ${out}   ${url}
 
 Read file allowed to default groups
-    ${rc}   ${out}   Gfal cat Success  ${url}/${file}
+    ${rc}   ${out}   Gfal cat Success  ${url}/${file.basename}
     Should Contain   ${out}   ${file.content}
 
 Write file allowed to default groups
@@ -33,7 +33,7 @@ Write file allowed to default groups
     Should Contain   ${out}   ${url}/services
 
 Delete file allowed to default groups
-    ${rc}   ${out}   Gfal rm Success   ${url}/${file}
+    ${rc}   ${out}   Gfal rm Success   ${url}/${file.basename}
     Should Contain   ${out}   DELETED
 
 Create directory allowed to default groups
@@ -43,14 +43,6 @@ Create directory allowed to default groups
 Delete directory allowed to default groups
     ${rc}   ${out}   Gfal rm Success   ${url}   -r
     Should Contain   ${out}   RMDIR
-
-
-*** Keywords ***
-
-Set Suite Environment
-    ${url}   ${file}   Upload File in Suite Sub-Directory   group-based-full-access   ${file.content}
-    Set Suite Variable   ${url}
-    Set Suite Variable   ${file}
 
 
 *** Variables ***

@@ -112,3 +112,9 @@ Upload File in Suite Sub-Directory
     Should Contain   ${out}   ${url}/${file.basename}
     Remove Temporary file   ${file.basename}
     [Return]   ${url}   ${file.basename}
+
+Set Suite Environment
+    [Arguments]   ${prefix.dir}=ts   ${content}=${EMPTY}
+    ${url}   ${file.basename}   Upload File in Suite Sub-Directory   ${prefix.dir}   ${content}
+    Set Suite Variable   ${url}
+    Set Suite Variable   ${file.basename}
