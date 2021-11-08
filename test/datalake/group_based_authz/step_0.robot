@@ -10,11 +10,7 @@ Variables   test/variables.yaml
 
 Force Tags   group-based-authz   step-0
 
-Suite Setup   Run Keywords   
-              ...   Set Authorization Method
-              ...   AND   Set Suite Environment   group-based-full-access   ${file.content}
-              ...   AND   Cleanup Authorization Environment
-              ...   AND   Get token   scope=-s wlcg.groups -s openid
+Suite Setup   Set Child Suite Environment
 Suite Teardown   Remove Environment Variable   BEARER_TOKEN
 
 
@@ -48,3 +44,12 @@ Delete directory allowed to default groups
 *** Variables ***
 
 ${file.content}   escape-suite-content-file
+
+
+*** Keywords ***
+
+Set Child Suite Environment
+    Set Authorization Method
+    Set Suite Environment   group-based-full-access   ${file.content}
+    Cleanup Authorization Environment
+    Get token   scope=-s wlcg.groups -s openid

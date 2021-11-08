@@ -10,10 +10,7 @@ Variables   test/variables.yaml
 
 Force Tags   anonymous-authz   step-0
 
-Suite Setup   Run Keywords   
-              ...   Set Authorization Method
-              ...   AND   Set Suite Environment   anonymous-access-denied   random-content
-              ...   AND   Cleanup Authorization Environment
+Suite Setup   Set Child Suite Environment
 
 
 *** Test cases ***
@@ -44,3 +41,11 @@ Create directory denied to unauthenticated clients
 Delete directory denied to unauthenticated clients
     ${rc}   ${out}   Gfal rm Error  ${url}   -r
     Should Contain Any   ${out}  401   403   Permission denied   ignore_case=True
+
+
+*** Keywords ***
+
+Set Child Suite Environment
+    Set Authorization Method
+    Set Suite Environment   anonymous-access-denied   random-content
+    Cleanup Authorization Environment

@@ -10,16 +10,8 @@ Resource   common/gfal.robot
 
 Variables   test/variables.yaml
 
-Suite Setup   Run Keywords
-              ...   Set Test Suite Global Variables
-              ...   Set Authorization Method
-              ...   Create Working Directory
-              ...   Cleanup Authorization Environment
-Suite Teardown   Run Keywords
-                 ...   Remove Environment Variable   BEARER_TOKEN
-                 ...   AND   Set Authorization Method
-                 ...   AND   Cleanup Working Directory
-                 ...   AND   Cleanup Authorization Environment
+Suite Setup   Set Parent Suite Environment
+Suite Teardown   Cleanup Parent Suite Environment
 
 
 *** Keywords ***
@@ -45,3 +37,15 @@ Cleanup Working Directory
     ${url}   Suite Base URL
     ${rc}   ${out}   Gfal rm Success   ${url}  -r
     Should Contain   ${out}   RMDIR
+
+Set Parent Suite Environment
+    Set Test Suite Global Variables
+    Set Authorization Method
+    Create Working Directory
+    Cleanup Authorization Environment
+
+Cleanup Parent Suite Environment
+    Remove Environment Variable   BEARER_TOKEN
+    Set Authorization Method
+    Cleanup Working Directory
+    Cleanup Authorization Environment
