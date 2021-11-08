@@ -77,22 +77,6 @@ Get NOW Time
     ${year}  ${month}  ${day}  ${hour}  ${min}  ${sec}   Get Time   year month day hour min sec
     [Return]   ${year}${month}${day}_${hour}${min}${sec}
 
-Set Authorization Method
-    ${rc}   ${out}   Create VOMS proxy
-    Should Contain   ${out}   Created proxy in
-    ${status}   ${value}   Run Keyword And Ignore Error   Gfal mkdir Success   ${url}
-    IF   '${status}' == 'FAIL'
-    Set Global Variable   ${AUTHZ_METHOD}   token
-    Log    Authorization method used: BEARER token
-    ELSE IF   '${status}' == 'PASS'
-    Set Global Variable   ${AUTHZ_METHOD}   proxy
-    Log    Authorization method used: VOMS proxy
-    ELSE
-    Set Global Variable   ${AUTHZ_METHOD}  None
-    Log   Unexpected Keyword Status: '${status}'
-    END
-    Delete VOMS proxy
-
 Get Authorization Method
     IF   '${AUTHZ_METHOD}' == 'proxy'
     ${rc}   ${out}   Create VOMS proxy
@@ -100,7 +84,7 @@ Get Authorization Method
     ELSE IF   '${AUTHZ_METHOD}' == 'token'
     Get token
     ELSE
-    Log   No authorization method set; failing test setup and skipping test suite
+    Log   No authorization method set. Failing test setup and skipping test suite
     END
 
 
