@@ -84,9 +84,9 @@ Set Authorization Method
     IF   '${status}' == 'FAIL'
     Delete VOMS proxy   
     Get token
-    Log    Authentication method used: BEARER token
+    Log    Authorization method used: BEARER token
     ELSE IF   '${status}' == 'PASS'
-    Log    Authentication method used: VOMS proxy
+    Log    Authorization method used: VOMS proxy
     ELSE
     Log   Unexpected Keyword Status: '${status}'
     END
