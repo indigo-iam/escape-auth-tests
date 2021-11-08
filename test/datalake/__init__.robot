@@ -41,11 +41,12 @@ Cleanup Working Directory
 Set Parent Suite Environment
     Set Test Suite Global Variables
     Set Authorization Method
+    Get Authorization Method
     Create Working Directory
     Cleanup Authorization Environment
 
 Cleanup Parent Suite Environment
     Remove Environment Variable   BEARER_TOKEN
-    Set Authorization Method
+    Get Authorization Method
     Cleanup Working Directory
     Cleanup Authorization Environment

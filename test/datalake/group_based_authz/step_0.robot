@@ -49,7 +49,7 @@ ${file.content}   escape-suite-content-file
 *** Keywords ***
 
 Set Child Suite Environment
-    Set Authorization Method
+    Get Authorization Method
     Set Suite Environment   group-based-full-access   ${file.content}
     Cleanup Authorization Environment
     Get token   scope=-s wlcg.groups -s openid
