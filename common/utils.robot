@@ -42,7 +42,8 @@ Create Temporary File
     Create File   ${path}  ${content}
     [Return]   ${path}
 
-Remove Temporary File  [Arguments]  ${file}
+Remove Temporary File  
+    [Arguments]  ${file}
     ${path}    Normalize Path   ${TEMPDIR}/${file}
     Remove File   ${path}
 
@@ -76,22 +77,56 @@ Get NOW Time
     ${year}  ${month}  ${day}  ${hour}  ${min}  ${sec}   Get Time   year month day hour min sec
     [Return]   ${year}${month}${day}_${hour}${min}${sec}
 
-Create sub-suite Directory with VOMS proxy
-    [Arguments]   ${prefix.dir}=ts
-    ${rc}   ${out}   Create VOMS proxy
+Set Fixture Authorization Method
+    ${rc}   ${out}   Create Fixture VOMS proxy
     Should Contain   ${out}   Created proxy in
+    Enable Fixture VOMS proxy
+    ${status}   ${value}   Run Keyword And Ignore Error   Gfal mkdir Success   ${url}
+    IF   '${status}' == 'FAIL'
+    Set Global Variable   ${AUTHZ_METHOD}   token
+    Log    Authorization method used: BEARER token
+    ELSE IF   '${status}' == 'PASS'
+    Set Global Variable   ${AUTHZ_METHOD}   proxy
+    Log    Authorization method used: VOMS proxy
+    ELSE
+    Set Global Variable   ${AUTHZ_METHOD}  None
+    Log   Unexpected Keyword Status: '${status}'   level=WARN
+    END
+    Delete VOMS proxy
+
+Get Fixture Authorization Method
+    IF   '${AUTHZ_METHOD}' == 'proxy'
+    Enable Fixture VOMS proxy
+    ELSE IF   '${AUTHZ_METHOD}' == 'token'
+    Get token
+    ELSE
+    Log   No authorization method set. Failing test setup and skipping test suite   level=WARN
+    END
+
+Cleanup Authorization Environment
+    Remove Environment Variable   BEARER_TOKEN
+    Run Keyword And Ignore Error   Delete VOMS proxy
+
+Create Suite Sub-Directory
+    [Arguments]   ${prefix.dir}=ts
     ${uuid}   Generate UUID
     ${url}   SE URL   ${prefix.dir}-${uuid}
     ${rc}   ${out}   Gfal mkdir Success   ${url}
     Should Contain   ${out}   ${url}
     [Return]   ${url}
 
-Upload file in sub-suite Directory with VOMS proxy
+Upload File in Suite Sub-Directory
     [Arguments]   ${prefix.dir}=ts   ${content}=${EMPTY}
-    ${url}   Create sub-suite Directory with VOMS proxy   ${prefix.dir}
+    ${url}   Create Suite Sub-Directory   ${prefix.dir}
     ${local_file}   Create Random Temporary File   ${content}
     ${file.basename}   Run   basename ${local_file}
     ${rc}   ${out}   Gfal copy Success   ${local_file}   ${url}   -t 5
     Should Contain   ${out}   ${url}/${file.basename}
     Remove Temporary file   ${file.basename}
     [Return]   ${url}   ${file.basename}
+
+Set Suite Environment
+    [Arguments]   ${prefix.dir}=ts   ${content}=${EMPTY}
+    ${url}   ${file.basename}   Upload File in Suite Sub-Directory   ${prefix.dir}   ${content}
+    Set Suite Variable   ${url}
+    Set Suite Variable   ${file.basename}
