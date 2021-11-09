@@ -24,22 +24,6 @@ Set Test Suite Global Variables
     ${url}   Suite Base URL
     Set Global Variable   ${url}
 
-Set Authorization Method
-    ${rc}   ${out}   Create VOMS proxy
-    Should Contain   ${out}   Created proxy in
-    ${status}   ${value}   Run Keyword And Ignore Error   Gfal mkdir Success   ${url}
-    IF   '${status}' == 'FAIL'
-    Set Global Variable   ${AUTHZ_METHOD}   token
-    Log    Authorization method used: BEARER token
-    ELSE IF   '${status}' == 'PASS'
-    Set Global Variable   ${AUTHZ_METHOD}   proxy
-    Log    Authorization method used: VOMS proxy
-    ELSE
-    Set Global Variable   ${AUTHZ_METHOD}  None
-    Log   Unexpected Keyword Status: '${status}'
-    END
-    Delete VOMS proxy
-
 Create Working Directory
     ${rc}   ${out}   Gfal mkdir Success   ${url}
     Should Contain   ${out}   ${url}
@@ -56,13 +40,13 @@ Cleanup Working Directory
 
 Set Parent Suite Environment
     Set Test Suite Global Variables
-    Set Authorization Method
-    Get Authorization Method
+    Set Fixture Authorization Method
+    Get Fixture Authorization Method
     Create Working Directory
     Cleanup Authorization Environment
 
 Cleanup Parent Suite Environment
     Remove Environment Variable   BEARER_TOKEN
-    Get Authorization Method
+    Get Fixture Authorization Method
     Cleanup Working Directory
     Cleanup Authorization Environment

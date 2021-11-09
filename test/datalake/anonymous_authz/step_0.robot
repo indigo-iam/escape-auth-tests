@@ -46,6 +46,6 @@ Delete directory denied to unauthenticated clients
 *** Keywords ***
 
 Set Child Suite Environment
-    Get Authorization Method
+    Get Fixture Authorization Method
     Set Suite Environment   anonymous-access-denied   random-content
     Cleanup Authorization Environment
