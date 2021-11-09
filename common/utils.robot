@@ -120,7 +120,7 @@ Upload File in Suite Sub-Directory
     ${url}   Create Suite Sub-Directory   ${prefix.dir}
     ${local_file}   Create Random Temporary File   ${content}
     ${file.basename}   Run   basename ${local_file}
-    ${rc}   ${out}   Gfal copy Success   ${local_file}   ${url}
+    ${rc}   ${out}   Gfal copy Success   ${local_file}   ${url}   -t 5
     Should Contain   ${out}   ${url}/${file.basename}
     Remove Temporary file   ${file.basename}
     [Return]   ${url}   ${file.basename}
