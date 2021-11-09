@@ -25,7 +25,7 @@ Read file allowed to default groups
     Should Contain   ${out}   ${file.content}
 
 Write file allowed to default groups
-    ${rc}   ${out}   Gfal copy Success   /etc/services   ${url}
+    ${rc}   ${out}   Gfal copy Success   /etc/services   ${url}   -f
     Should Contain   ${out}   ${url}/services
 
 Delete file allowed to default groups

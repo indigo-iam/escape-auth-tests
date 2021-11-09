@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 CRIC_URL=${CRIC_URL:-https://escape-cric.cern.ch/api/doma/rse/query/?json&preset=doma}
 VAR_FILE=${VAR_FILE:-test/variables.yaml}
@@ -6,21 +7,24 @@ VAR_FILE=${VAR_FILE:-test/variables.yaml}
 rse_list=$(curl -s ${CRIC_URL})
 keys=($(echo $rse_list | jq .rses | jq keys[]))
 
-ec=0
-
 for k in "${keys[@]}"; do 
-	typeset -l name=$(echo $rse_list | jq -r .rses.$k.name)
+	name=$(echo $rse_list | jq -r .rses.$k.name | tr '[:upper:]' '[:lower:]')
 	
-	cat ${VAR_FILE} | shyaml keys endpoints.$name > /dev/null 2>&1
+	if [[ "${name}" =~ ^.*-tape ]]; then
+		>&2 echo "Skipping tape endpoint ${name}";
+		continue;
+	fi
 
-	if [ $? -ne 0 ]; then
-		desc=$(echo $rse_list | jq -r .rses.$k.protocols[0].name)
-		hostname=$(echo $rse_list | jq -r .rses.$k.protocols[0].hostname)
-		scheme=$(echo $rse_list | jq -r .rses.$k.protocols[0].scheme)
-		port=$(echo $rse_list | jq -r .rses.$k.protocols[0].port)
-		prefix=$(echo $rse_list | jq -r .rses.$k.protocols[0].prefix)
-	
+	protocols=($(echo $rse_list | jq .rses.$k.protocols | jq keys[]))
+
+	for i in "${protocols[@]}"; do
+		scheme=$(echo $rse_list | jq -r .rses.$k.protocols[$i].scheme)
+		
 		if [[ "$scheme" =~ ^(davs|https)$ ]]; then
+			desc=$(echo $rse_list | jq -r .rses.$k.protocols[$i].name)
+			port=$(echo $rse_list | jq -r .rses.$k.protocols[$i].port)
+			prefix=$(echo $rse_list | jq -r .rses.$k.protocols[$i].prefix)
+			hostname=$(echo $rse_list | jq -r .rses.$k.protocols[$i].hostname)
 			echo "  $name:"
 			echo "    enable: true"
 			echo "    desc: $desc"
@@ -28,10 +32,8 @@ for k in "${keys[@]}"; do
 			echo "    endpoint: $scheme://$hostname:$port"
 			echo "    paths:"
 			echo "      prefix: $prefix"
-			
-			(( ec++ ))
+		else
+			>&2 echo "Skipping endpoint ${name} that has scheme ${scheme}"
 		fi
-	fi
+	done
 done
-
-exit ${ec}
