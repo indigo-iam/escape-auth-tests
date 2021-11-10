@@ -27,6 +27,13 @@ endpoints:
     endpoint: davs://xfer.cr.cnaf.infn.it:8443
     paths:
       prefix: /escape/rucio/cnaf_storm
+  desy-dcache:
+    enable: true
+    desc: desy-dcache-davs
+    type:
+    endpoint: davs://dcache-door-doma01.desy.de:2880
+    paths:
+      prefix: //escape/wp2_rucio_testbed/desy_dcache
   eulake-1:
     enable: true
     desc: EULAKE-1-davs
@@ -62,6 +69,27 @@ endpoints:
     endpoint: davs://ccdcalitest10.in2p3.fr:2880
     paths:
       prefix: //pnfs/in2p3.fr/data/escape/cc_in2p3_dcache
+  in2p3-cc-lsst-dest:
+    enable: true
+    desc: IN2P3-CC-LSST-DEST-davs
+    type:
+    endpoint: davs://ccdcalitest10.in2p3.fr:2880
+    paths:
+      prefix: /pnfs/in2p3.fr/data/escape/cc_in2p3_dcache/lsst_dest
+  infn-na-dpm:
+    enable: true
+    desc: NA-INFN-davs
+    type:
+    endpoint: davs://t2-dpm-dome.na.infn.it:443
+    paths:
+      prefix: //dpm/na.infn.it/home/escape/infn_na_dpm
+  infn-na-dpm-fed:
+    enable: true
+    desc: NA-INFN-FED-davs
+    type:
+    endpoint: davs://t2-dpm-dome.na.infn.it:443
+    paths:
+      prefix: //dpm/fed-t2.infn.it/home/escape
   infn-roma1:
     enable: true
     desc: INFN-ROMA1-davs
@@ -97,4 +125,11 @@ endpoints:
     endpoint: davs://door05.pic.es:8452
     paths:
       prefix: //rucio/pic_inject
+  sara-dcache:
+    enable: true
+    desc: SARA-DCACHE-davs
+    type:
+    endpoint: davs://webdav.grid.sara.nl:2882
+    paths:
+      prefix: //pnfs/grid.sara.nl/data/escape/disk/rucio/sara_dcache
 
