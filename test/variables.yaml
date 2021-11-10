@@ -76,6 +76,13 @@ endpoints:
     endpoint: davs://ccdcalitest10.in2p3.fr:2880
     paths:
       prefix: /pnfs/in2p3.fr/data/escape/cc_in2p3_dcache/lsst_dest
+  in2p3-cc-lsst-source:
+    enable: true
+    desc: IN2P3-CC-LSST-SOURCE-davs
+    type:
+    endpoint: davs://ccdcalitest10.in2p3.fr:2880
+    paths:
+      prefix: /pnfs/in2p3.fr/data/escape/cc_in2p3_dcache/lsst_source
   infn-na-dpm:
     enable: true
     desc: NA-INFN-davs
