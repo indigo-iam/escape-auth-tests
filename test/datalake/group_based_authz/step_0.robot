@@ -16,9 +16,9 @@ Suite Teardown   Remove Environment Variable   BEARER_TOKEN
 
 *** Test cases ***
 
-List directory allowed to default groups
-    ${rc}   ${out}   Gfal Read Success   ${url}   -d
-    Should Contain   ${out}   ${url}
+Show directory content allowed to default groups
+    ${rc}   ${out}   Gfal Read Success  ${url}
+    Should Contain   ${out}  ${file.basename}
 
 Read file allowed to default groups
     ${rc}   ${out}   Gfal cat Success  ${url}/${file.basename}

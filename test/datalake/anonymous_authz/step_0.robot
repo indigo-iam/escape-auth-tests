@@ -15,9 +15,12 @@ Suite Setup   Set Child Suite Environment
 
 *** Test cases ***
 
-List directory denied to unauthenticated clients
-    ${rc}   ${out}   Gfal Read Error   ${url}   -d
-    Should Contain Any   ${out}  401   403   Permission denied   ignore_case=True
+Show directory content denied to unauthenticated clients
+    ${cmd}   Set Variable   gfal-ls ${url}
+    ${rc}   ${out}    Run and Return RC And Output   ${cmd}
+    ${status.empty.out}   ${value}   Run Keyword And Ignore Error   Should Be Empty   ${out}
+    ${status.error.out}   ${value}   Run Keyword And Ignore Error   Should Contain Any   ${out}  401   403   Permission denied   ignore_case=True
+    Run Keyword If   '${status.empty.out}' == 'FAIL' and '${status.error.out}' == 'FAIL'   Fail   Show directory content allowed to unauthenticated clients
 
 Read file denied to unauthenticated clients
     ${rc}   ${out}   Gfal cat Error  ${url}/${file.basename}
@@ -41,7 +44,7 @@ Create directory denied to unauthenticated clients
 
 Delete directory denied to unauthenticated clients
     ${rc}   ${out}   Gfal rm Error  ${url}   -r
-    Should Contain Any   ${out}  401   403   Permission denied   ignore_case=True
+    Should Contain Any   ${out}  401   403   424   Permission denied   ignore_case=True
 
 
 *** Keywords ***
