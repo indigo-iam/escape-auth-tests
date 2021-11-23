@@ -33,7 +33,8 @@ Delete file allowed to default groups
     Should Contain   ${out}   DELETED
 
 Create directory allowed to default groups
-    ${rc}   ${out}   Gfal mkdir Success   ${url}
+    ${uuid}   Generate UUID
+    ${rc}   ${out}   Gfal mkdir Success   ${url}/${uuid}
     Should Contain   ${out}   ${url}
 
 Delete directory allowed to default groups

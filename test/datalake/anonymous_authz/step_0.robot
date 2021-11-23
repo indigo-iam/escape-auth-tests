@@ -39,7 +39,8 @@ Delete file denied to unauthenticated clients
     [Teardown]   Run   voms-proxy-destroy
 
 Create directory denied to unauthenticated clients
-    ${rc}   ${out}   Gfal mkdir Error   ${url}   -p
+    ${uuid}   Generate UUID
+    ${rc}   ${out}   Gfal mkdir Error   ${url}/${uuid}
     Should Contain Any   ${out}  401   403   Permission denied   ignore_case=True
 
 Delete directory denied to unauthenticated clients
