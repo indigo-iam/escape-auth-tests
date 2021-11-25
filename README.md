@@ -69,14 +69,17 @@ sh utils/fetch-rses-from-cric.sh
 The test suite runs on GH actions:
 
 - at each commit on any branch
-- every 20 minutes
+- every hour
 
 ### CNAF SD Jenkins
 
 The test suite also runs on the CNAF software develop group Jenkins instance:
 
 - at each commit on any branch
-- every day at 11 CEST
+- every hour
 
 Reports can be accessed
-[here](https://ci.cloud.cnaf.infn.it/view/escape/job/escape-auth-tests)
+[here][ts-reports].
+
+
+[ts-reports]: https://ci.cloud.cnaf.infn.it/view/escape/job/escape-auth-tests/job/main/lastSuccessfulBuild/artifact/reports/reports/latest/joint-report.html
