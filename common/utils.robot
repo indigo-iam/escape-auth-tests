@@ -106,6 +106,7 @@ Get Fixture Authorization Method
 Cleanup Authorization Environment
     Remove Environment Variable   BEARER_TOKEN
     Run Keyword And Ignore Error   Delete VOMS proxy
+    Run Keyword And Ignore Error   Delete VOMS proxy   /tmp/x509up_ts_fixture
 
 Create Suite Sub-Directory
     [Arguments]   ${prefix.dir}=ts
