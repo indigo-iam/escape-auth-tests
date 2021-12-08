@@ -15,7 +15,7 @@ services:
       - cabundle:/etc/pki
 
   ts:
-    image: indigoiam/escape-auth-tests
+    image: indigoiam/robot-framework
 
     environment:
       - TZ=Europe/Rome
