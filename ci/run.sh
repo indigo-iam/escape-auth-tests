@@ -64,6 +64,8 @@ rebot --nostatusrc \
   --log ${reports_dir}/joint-log.html \
   --ReportTitle "ESCAPE datalake tests ${now}" \
   --name "ESCAPE datalake tests" \
+  --tagstatinclude "rse-*" \
+  --tagstatinclude "iam" \
   ${reports}
 
 echo "Done!"
