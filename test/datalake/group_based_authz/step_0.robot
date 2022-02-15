@@ -10,6 +10,8 @@ Variables   test/variables.yaml
 
 Force Tags   group-based-authz   step-0
 
+Test Timeout  15
+
 Suite Setup   Set Child Suite Environment
 Suite Teardown   Remove Environment Variable   BEARER_TOKEN
 
