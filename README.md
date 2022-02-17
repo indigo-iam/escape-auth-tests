@@ -76,7 +76,7 @@ The test suite runs on GH actions:
 The test suite also runs on the CNAF software develop group Jenkins instance:
 
 - at each commit on any branch
-- every hour
+- every day at 14
 
 Reports can be accessed
 [here][ts-reports].

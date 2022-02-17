@@ -11,7 +11,7 @@ pipeline {
     lock resource: 'wlcg-jwt-compliance-lock'
   }
 
-  triggers { cron('0 * * * *') }
+  triggers { cron('0 14 * * *') }
 
   parameters {
     string(defaultValue: "--exclude step-1", description: 'Robot arguments', name: 'ROBOT_ARGS')
