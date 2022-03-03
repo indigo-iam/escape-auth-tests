@@ -55,13 +55,6 @@ endpoints:
     endpoint: davs://lxwp2dlds1.gsi.de:443
     paths:
       prefix: //escape/fair_root
-  gsi-root:
-    enable: true
-    desc: GSI-ROOT-davs
-    type:
-    endpoint: davs://dclxwp2dlds1.gsi.de:443
-    paths:
-      prefix: //escape/gsi_root
   in2p3-cc-dcache:
     enable: true
     desc: CC-IN2P3-DCACHE-davs
